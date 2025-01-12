@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import EventForm from "./EventForm";
+import EventForm from "./EventForm/updateEventForm";
 import { useRef } from "react";
 
 const Event = (event: event) => {
@@ -50,11 +50,8 @@ const Event = (event: event) => {
               <DialogTitle className="text-primary">Editar evento</DialogTitle>
             </DialogHeader>
 
-            <EventForm ref={formRef} {...event} />
+            <EventForm {...event} />
 
-            <DialogFooter>
-              <Button type="button" onClick={handleSaveChanges}>Salvar mudanças</Button>
-            </DialogFooter>
           </DialogContent>
         </Dialog>
       </CardContent>
