@@ -17,7 +17,7 @@ export const eventFormZod = z.object({
       }, {
         message: 'Data não pode estar no passado*'
       }),
-    tableCount: z
+    table_count: z
       .preprocess(
         (val) => parseInt(val as string), 
         z.number()
