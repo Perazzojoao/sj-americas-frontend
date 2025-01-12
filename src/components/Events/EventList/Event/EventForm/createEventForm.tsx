@@ -8,9 +8,8 @@ import useEventList from "@/hooks/useEventList";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
-import { event } from "@/@types";
 
-const EventForm = ({ name, date, tableCount }: event) => {
+const EventForm = () => {
   const {
     register,
     handleSubmit,
