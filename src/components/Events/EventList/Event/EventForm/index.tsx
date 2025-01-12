@@ -5,6 +5,7 @@ import { eventFormZod, eventFormZodType } from "./eventFormZod";
 import { useForm } from "react-hook-form";
 import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
+import { toast } from "@/hooks/use-toast";
 
 type EventFormProps = {
   id: number;
@@ -35,9 +36,22 @@ const EventForm = ({ name, date, tableCount, id, ref }: EventFormProps) => {
           'Content-Type': 'application/json',
         },
       });
+
+      if (!response.ok) {
+        toast({
+          title: "Falha ao atualizar evento",
+          variant: "destructive"
+        })
+        return;
+      } else {
+        toast({
+          title: "Evento atualizado com sucesso",
+        })
+      }
+
       refetch();
     } catch (error) {
-      console.log(error);
+      console.log("error:", error);
     }
   }
 
