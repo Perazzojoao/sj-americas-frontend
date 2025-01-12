@@ -6,17 +6,11 @@ import { useForm } from "react-hook-form";
 import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
 import { toast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
+import { event } from "@/@types";
 
-type EventFormProps = {
-  id: number;
-  name: string;
-  date: string;
-  tableCount: number;
-  ref: React.RefObject<HTMLFormElement | null>;
-}
-
-const EventForm = ({ name, date, tableCount, id, ref }: EventFormProps) => {
-  const formRef = ref
+const EventForm = ({ name, date, tableCount, id }: event) => {
   const {
     register,
     handleSubmit,
@@ -56,7 +50,7 @@ const EventForm = ({ name, date, tableCount, id, ref }: EventFormProps) => {
   }
 
   return (
-    <form ref={formRef} className="grid gap-4 py-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="grid gap-4 py-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-4 items-center gap-x-4 gap-y-1">
         <h3 className="text-right">
           Nome
@@ -106,6 +100,9 @@ const EventForm = ({ name, date, tableCount, id, ref }: EventFormProps) => {
           </span>
         )}
       </div>
+      <DialogFooter>
+        <Button type="submit">Salvar mudanças</Button>
+      </DialogFooter>
     </form>
   );
 }
