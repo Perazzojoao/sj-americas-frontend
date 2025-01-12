@@ -3,15 +3,18 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { eventFormZod, eventFormZodType } from "./eventFormZod";
 import { useForm } from "react-hook-form";
+import { NEXT_API_URL } from "@/services/baseUrl";
+import useEventList from "@/hooks/useEventList";
 
 type EventFormProps = {
+  id: number;
   name: string;
   date: string;
   tableCount: number;
   ref: React.RefObject<HTMLFormElement | null>;
 }
 
-const EventForm = ({ name, date, tableCount, ref }: EventFormProps) => {
+const EventForm = ({ name, date, tableCount, id, ref }: EventFormProps) => {
   const formRef = ref
   const {
     register,
@@ -21,8 +24,21 @@ const EventForm = ({ name, date, tableCount, ref }: EventFormProps) => {
     resolver: zodResolver(eventFormZod),
   })
 
+  const { refetch } = useEventList();
+
   async function onSubmit(data: eventFormZodType) {
-    console.log(data);
+    try {
+      const response = await fetch(`${NEXT_API_URL}/api/events/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -68,11 +84,11 @@ const EventForm = ({ name, date, tableCount, ref }: EventFormProps) => {
           id="mesas"
           type="number"
           defaultValue={tableCount}
-          {...register('tableCount')}
+          {...register('table_count')}
         />
-        {errors.tableCount && (
+        {errors.table_count && (
           <span className="col-span-3 col-start-2 text-errorMessage text-xs">
-            {errors.tableCount.message}
+            {errors.table_count.message}
           </span>
         )}
       </div>
