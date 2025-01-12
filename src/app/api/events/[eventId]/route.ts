@@ -2,7 +2,6 @@ import { BASE_URL } from '@/services/baseUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import { eventFormZodType } from '@/components/Events/EventList/Event/EventForm/eventFormZod'
-import { stat } from 'fs'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
 	const { eventId } = await params
