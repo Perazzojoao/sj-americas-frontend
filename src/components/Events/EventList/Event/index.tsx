@@ -53,7 +53,7 @@ const Event = (event: event) => {
             <EventForm ref={formRef} {...event} />
 
             <DialogFooter>
-              <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
+              <Button type="button" onClick={handleSaveChanges}>Salvar mudanças</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
