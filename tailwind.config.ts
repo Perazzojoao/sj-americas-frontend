@@ -51,6 +51,7 @@ export default {
 					'5': 'hsl(var(--chart-5))',
 				},
 				errorMessage: '#f87171',
+				errorToast: '#ef4444',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
