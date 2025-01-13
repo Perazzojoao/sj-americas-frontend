@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 
-const EventForm = () => {
+const CreateEventForm = () => {
   const {
     register,
     handleSubmit,
@@ -97,11 +97,11 @@ const EventForm = () => {
         )}
       </div>
       <DialogFooter>
-        <Button type="submit">Salvar mudanças</Button>
+        <Button type="submit" className="bg-primary text-white">Criar evento</Button>
       </DialogFooter>
     </form>
   );
 }
 
-export default EventForm;
+export default CreateEventForm;
 
