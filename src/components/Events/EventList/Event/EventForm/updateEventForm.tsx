@@ -7,6 +7,7 @@ import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react"
 import { DialogFooter } from "@/components/ui/dialog";
 import { event } from "@/@types";
 
@@ -14,7 +15,7 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<eventFormZodType>({
     resolver: zodResolver(eventFormZod),
   })
@@ -101,7 +102,10 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
         )}
       </div>
       <DialogFooter>
-        <Button type="submit">Salvar mudanças</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          <Loader2 className={`animate-spin ${isSubmitting ? 'block' : 'hidden'}`} />
+          Salvar mudanças
+        </Button>
       </DialogFooter>
     </form>
   );

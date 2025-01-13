@@ -7,13 +7,14 @@ import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react"
 import { DialogFooter } from "@/components/ui/dialog";
 
 const CreateEventForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<eventFormZodType>({
     resolver: zodResolver(eventFormZod),
   })
@@ -97,7 +98,10 @@ const CreateEventForm = () => {
         )}
       </div>
       <DialogFooter>
-        <Button type="submit" className="bg-primary text-white">Criar evento</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          <Loader2 className={`animate-spin ${isSubmitting ? 'block' : 'hidden'}`} />
+          Criar evento
+        </Button>
       </DialogFooter>
     </form>
   );
