@@ -62,7 +62,8 @@ const EventList = () => {
           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
           .map((event) => (
             <Event key={event.id} {...event} />
-          ))}
+          ))
+        }
       </div>
     </div>
   );
