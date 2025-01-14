@@ -21,19 +21,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
 
 import EventForm from "./EventForm/updateEventForm";
 import { MoreHorizontal } from "lucide-react";
+import DeleteDialog from "@/components/Dialogs/DeleteDialog";
 
 const Event = (event: event) => {
   const { name, date, tableCount } = event;
@@ -70,19 +64,7 @@ const Event = (event: event) => {
                 </AlertDialogTrigger>
               </DropdownMenuContent>
             </DropdownMenu>
-            <AlertDialogContent className="bg-white">
-              <AlertDialogHeader>
-                <AlertDialogTitle className="text-primary">Você tem certeza?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Essa ação não pode ser desfeita. Isso excluirá permanentemente esse
-                  evento e todos os dados relacionados.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction>Deletar</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
+            <DeleteDialog />
           </AlertDialog>
           <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-white">
             <DialogHeader>
