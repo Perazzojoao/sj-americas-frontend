@@ -22,13 +22,6 @@ const Event = (event: event) => {
   const year = new Date(date).getFullYear();
   const month = new Date(date).getMonth() + 1;
   const day = new Date(date).getUTCDate();
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const handleSaveChanges = () => {
-    if (formRef.current) {
-      formRef.current.requestSubmit();
-    }
-  };
 
   return (
     <Card className="sm:max-w-sm text-primary shadow-md">
