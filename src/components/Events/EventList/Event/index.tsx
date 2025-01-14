@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import EventForm from "./EventForm/updateEventForm";
-import { useRef } from "react";
 
 const Event = (event: event) => {
   const { name, date, tableCount } = event;
