@@ -30,7 +30,9 @@ const DeleteDialog = ({ id }: event) => {
       }
 
       refetch();
-    } catch (error) { }
+    } catch (error) {
+      console.log("error:", error);
+    }
   }
   return (
     <AlertDialogContent className="bg-white">
