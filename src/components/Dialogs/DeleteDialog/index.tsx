@@ -1,6 +1,37 @@
+'use client'
+import { event } from "@/@types";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { toast } from "@/hooks/use-toast";
+import useEventList from "@/hooks/useEventList";
+import { NEXT_API_URL } from "@/services/baseUrl";
 
-const DeleteDialog = () => {
+const DeleteDialog = ({ id }: event) => {
+  const { refetch } = useEventList();
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`${NEXT_API_URL}/api/events/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        toast({
+          title: "Falha ao deletar evento",
+          variant: "destructive"
+        })
+        return;
+      } else {
+        toast({
+          title: "Evento deletado com sucesso",
+        })
+      }
+
+      refetch();
+    } catch (error) { }
+  }
   return (
     <AlertDialogContent className="bg-white">
       <AlertDialogHeader>
@@ -12,7 +43,7 @@ const DeleteDialog = () => {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancelar</AlertDialogCancel>
-        <AlertDialogAction>Deletar</AlertDialogAction>
+        <AlertDialogAction onClick={handleDelete}>Deletar</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
 

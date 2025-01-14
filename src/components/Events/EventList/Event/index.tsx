@@ -64,7 +64,7 @@ const Event = (event: event) => {
                 </AlertDialogTrigger>
               </DropdownMenuContent>
             </DropdownMenu>
-            <DeleteDialog />
+            <DeleteDialog {...event} />
           </AlertDialog>
           <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-white">
             <DialogHeader>
