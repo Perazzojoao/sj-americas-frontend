@@ -28,17 +28,26 @@ import {
 import EventForm from "./EventForm/updateEventForm";
 import { MoreHorizontal } from "lucide-react";
 import DeleteDialog from "@/components/Dialogs/DeleteDialog";
+import { useRouter } from "next/navigation";
 
 const Event = (event: event) => {
+  const router = useRouter();
+
   const { name, date, tableCount } = event;
   const year = new Date(date).getFullYear();
   const month = new Date(date).getMonth() + 1;
   const day = new Date(date).getUTCDate();
 
+  const handleNavigation = (id: number) => {
+    router.push(`/eventos/${id}`);
+  }
+
   return (
     <Card className="sm:max-w-sm text-primary shadow-md">
       <CardHeader className="flex flex-row justify-between ">
-        <CardTitle>{name}</CardTitle>
+        <CardTitle className="hover:underline hover:cursor-pointer" onClick={() => { handleNavigation(event.id) }}>
+          {name}
+        </CardTitle>
         <CardDescription>{`${day}/${month}/${year}`}</CardDescription>
       </CardHeader>
       <CardContent className="font-semibold flex justify-between items-center">
