@@ -29,6 +29,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 		)
 	}
 	revalidateTag('event')
+	revalidateTag('table')
 
 	return NextResponse.json(response)
 }
