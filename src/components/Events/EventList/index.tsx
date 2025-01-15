@@ -18,12 +18,12 @@ const CreateEventDialog = () => {
   return (
     <Dialog >
       <DialogTrigger asChild className="flex justify-between items-center">
-        <Button className="bg-primary text-white max-w-72 grow">
+        <Button className="max-w-72 grow">
           Criar evento
           <FaPlus className="ml-2" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-white">
+      <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
         <DialogHeader>
           <DialogTitle className="text-primary">Criar evento</DialogTitle>
         </DialogHeader>
@@ -47,7 +47,7 @@ const EventList = () => {
     <div>
       <div className="w-full flex justify-center items-center gap-4 mb-6">
         <Input
-          className="bg-white ring-white border-white w-3/5 sm:w-3/6"
+          className="bg-card w-3/5 sm:w-3/6"
           placeholder="Buscar evento"
           onChange={(e) => handleSearchChange(e.target.value)}
         />

@@ -66,11 +66,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           onChange={(event) =>
             table.getColumn("owner")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-white"
+          className="max-w-sm bg-card"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto bg-primary text-white hover:bg-secondary hover:text-white">
+            <Button variant="default" className="ml-auto ">
               Colunas
             </Button>
           </DropdownMenuTrigger>
@@ -98,7 +98,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table className="bg-white rounded-lg">
+        <Table className="bg-card rounded-lg">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

@@ -75,7 +75,7 @@ const Event = (event: event) => {
             </DropdownMenu>
             <DeleteDialog {...event} />
           </AlertDialog>
-          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-white">
+          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
             <DialogHeader>
               <DialogTitle className="text-primary">Editar evento</DialogTitle>
             </DialogHeader>
