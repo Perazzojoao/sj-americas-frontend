@@ -23,7 +23,7 @@ const CreateEventForm = () => {
 
   async function onSubmit(data: eventFormZodType) {
     try {
-      const response = await fetch(`${NEXT_API_URL}/api/events`, {
+      const response = await fetch('/api/events', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

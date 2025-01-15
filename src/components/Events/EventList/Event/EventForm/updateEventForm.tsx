@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { eventFormZod, eventFormZodType } from "./eventFormZod";
 import { useForm } from "react-hook-form";
-import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,7 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
 
   async function onSubmit(data: eventFormZodType) {
     try {
-      const response = await fetch(`${NEXT_API_URL}/api/events/${id}`, {
+      const response = await fetch(`/api/events/${id}`, {
         method: 'PATCH',
         body: JSON.stringify(data),
         headers: {

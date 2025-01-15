@@ -3,14 +3,13 @@ import { event } from "@/@types";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import useEventList from "@/hooks/useEventList";
-import { NEXT_API_URL } from "@/services/baseUrl";
 
 const DeleteDialog = ({ id }: event) => {
   const { refetch } = useEventList();
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${NEXT_API_URL}/api/events/${id}`, {
+      const response = await fetch(`/api/events/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
