@@ -34,7 +34,7 @@ export const getTableList = async (eventId: number | undefined = undefined): Pro
 	})
 	const resp: response = await response.json()
 	const data = resp.data as tableListResponse
-	return data.table_list
+	return data.tables
 }
 
 export const getTable = async (tableId: number): Promise<table> => {

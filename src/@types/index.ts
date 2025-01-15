@@ -15,7 +15,7 @@ export type eventResponse = {
 }
 
 export type tableListResponse = {
-  table_list: table[];
+  tables: table[];
 }
 
 export type tableResponse = {
