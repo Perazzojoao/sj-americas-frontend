@@ -4,14 +4,14 @@ import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal, ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { Checkbox } from "@/components/ui/checkbox"
+import UpdateTableForm from "../TableForm/UpdateTableForm"
 
 export const columns: ColumnDef<table>[] = [
   {
@@ -123,25 +123,23 @@ export const columns: ColumnDef<table>[] = [
       const table = row.original
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(`${table.id}`)}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              size="sm"
+              className="flex items-center"
+              aria-label="Actions"
             >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              Editar
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
+            <DialogHeader>
+              <DialogTitle className="text-primary">Editar mesa {table.number}</DialogTitle>
+            </DialogHeader>
+            <UpdateTableForm {...table} />
+          </DialogContent>
+        </Dialog>
       )
     },
   }
