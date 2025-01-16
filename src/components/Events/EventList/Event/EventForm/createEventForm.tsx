@@ -1,7 +1,7 @@
 'use client'
 import { Input } from "@/components/ui/input";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { eventFormZod, eventFormZodType } from "./eventFormZod";
+import { eventFormSchema, eventFormSchemaType } from "./eventFormZod";
 import { useForm } from "react-hook-form";
 import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
@@ -15,13 +15,13 @@ const CreateEventForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<eventFormZodType>({
-    resolver: zodResolver(eventFormZod),
+  } = useForm<eventFormSchemaType>({
+    resolver: zodResolver(eventFormSchema),
   })
 
   const { refetch } = useEventList();
 
-  async function onSubmit(data: eventFormZodType) {
+  async function onSubmit(data: eventFormSchemaType) {
     try {
       const response = await fetch('/api/events', {
         method: 'POST',

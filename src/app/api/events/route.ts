@@ -1,4 +1,4 @@
-import { eventFormZodType } from '@/components/Events/EventList/Event/EventForm/eventFormZod'
+import { eventFormSchemaType } from '@/components/Events/EventList/Event/EventForm/eventFormZod'
 import { getEventList } from '@/services'
 import { BASE_URL } from '@/services/baseUrl'
 import { revalidateTag } from 'next/cache'
@@ -10,7 +10,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-	const body: eventFormZodType = await request.json()
+	const body: eventFormSchemaType = await request.json()
 	const response = await fetch(`${BASE_URL}/event`, {
 		method: 'POST',
 		body: JSON.stringify(body),

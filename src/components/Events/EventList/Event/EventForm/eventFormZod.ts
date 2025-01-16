@@ -1,7 +1,7 @@
 'use client'
 import { z } from 'zod';
 
-export const eventFormZod = z.object({
+export const eventFormSchema = z.object({
     name: z
       .string()
       .min(3, 'Nome deve ter no mínimo 3 caracteres*')
@@ -29,4 +29,4 @@ export const eventFormZod = z.object({
       })
 });
 
-export type eventFormZodType = z.infer<typeof eventFormZod>;
+export type eventFormSchemaType = z.infer<typeof eventFormSchema>;

@@ -1,11 +1,11 @@
 import { BASE_URL } from '@/services/baseUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
-import { eventFormZodType } from '@/components/Events/EventList/Event/EventForm/eventFormZod'
+import { eventFormSchemaType } from '@/components/Events/EventList/Event/EventForm/eventFormZod'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
 	const { eventId } = await params
-	const body: eventFormZodType = await request.json()
+	const body: eventFormSchemaType = await request.json()
 	const response = await fetch(`${BASE_URL}/event/${eventId}`, {
 		method: 'PATCH',
 		body: JSON.stringify(body),
