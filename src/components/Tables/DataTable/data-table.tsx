@@ -20,16 +20,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import UpdateMultipleTableForm from "../TableForm/UpdateMultipleTableForm"
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
@@ -40,8 +36,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-
-  const { selectedItems } = useSelectedItems()
+  const { filteredTableList } = useSelectedItems()
 
   const table = useReactTable({
     data,
@@ -60,6 +55,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     },
   })
 
+  const { isAllTaken, filteredTableListLength } = useMemo(() => {
+    const isAllTaken = filteredTableList.every((table) => table.isTaken)
+    const filteredTableListLength = filteredTableList.length
+    return { isAllTaken, filteredTableListLength }
+  }, [filteredTableList])
+
+  console.log('filteredTableList', filteredTableList);
+
   return (
     <div>
       <div className="flex items-center py-4 gap-3">
@@ -71,34 +74,24 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           }
           className="max-w-sm bg-card"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="default" className="ml-auto ">
-              Colunas
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              size="sm"
+              className="ml-auto"
+              aria-label="Actions"
+              disabled={!filteredTableListLength}
+            >
+              Editar marcadas
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
+            <DialogHeader>
+              <DialogTitle className="text-primary">Editar mesas</DialogTitle>
+            </DialogHeader>
+            <UpdateMultipleTableForm tableList={filteredTableList} isAllTaken={isAllTaken} />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="rounded-md border">
         <Table className="bg-card rounded-lg">
