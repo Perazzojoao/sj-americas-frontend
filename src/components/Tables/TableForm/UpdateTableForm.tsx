@@ -10,10 +10,19 @@ import { useForm } from "react-hook-form";
 import { tableFormSchemaType, tableFormSchema } from "./tableFormSchema";
 import { toast } from "@/hooks/use-toast";
 import useTableList from "@/hooks/useTableList";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-const UpdateTableForm = ({ id, seats, owner, eventId }: table) => {
+
+const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) => {
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<tableFormSchemaType>({
@@ -61,6 +70,7 @@ const UpdateTableForm = ({ id, seats, owner, eventId }: table) => {
           type="number"
           defaultValue={seats}
           {...register('seats')}
+          className="col-span-2"
         />
         {errors.seats && (
           <span className="col-span-3 col-start-2 text-errorMessage text-xs">
@@ -77,10 +87,38 @@ const UpdateTableForm = ({ id, seats, owner, eventId }: table) => {
           type="text"
           defaultValue={owner ?? ''}
           {...register('owner')}
+          className="col-span-2"
         />
         {errors.owner && (
           <span className="col-span-3 col-start-2 text-errorMessage text-xs">
             {errors.owner.message}
+          </span>
+        )}
+      </div>
+      <div className="grid grid-cols-4 items-center gap-x-4 gap-y-1">
+        <h3 className="text-right sm:block hidden">
+          Pagamento
+        </h3>
+        <div className="col-start-2">
+          <Select defaultValue={`${isPaid}`} onValueChange={(value) => { setValue('is_paid', value === 'true' ? true : false) }}>
+            <SelectTrigger className="w-[180px]" disabled={!isTaken}>
+              <SelectValue placeholder="Pagamento" />
+            </SelectTrigger>
+            <SelectContent className="col-span-3 col-start-2">
+              {!isTaken ?
+                <SelectItem value="false">-</SelectItem>
+                :
+                <>
+                  <SelectItem value="false">Pendente</SelectItem>
+                  <SelectItem value="true">Pago</SelectItem>
+                </>
+              }
+            </SelectContent>
+          </Select>
+        </div>
+        {errors.is_paid && (
+          <span className="col-span-3 col-start-2 text-errorMessage text-xs">
+            {errors.is_paid.message}
           </span>
         )}
       </div>

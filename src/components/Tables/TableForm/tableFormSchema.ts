@@ -11,16 +11,17 @@ export const tableFormSchema = z.object({
 	),
 	owner: z
 		.preprocess(
-			val => val ? parseInt(val as string) : null,
+			val => (val ? parseInt(val as string) : null),
 			z
 				.number()
 				.int({ message: 'Número do lote deve ser um número inteiro*' })
 				.min(1, 'Número do lote deve ser maior que 0*')
 				.max(301, 'Número do lote deve ser menor que 301*')
-        .nullable()
+				.nullable()
 		)
 		.nullable()
-    .optional()
+		.optional(),
+	is_paid: z.boolean().optional(),
 })
 
 export type tableFormSchemaType = z.infer<typeof tableFormSchema>
