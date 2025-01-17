@@ -3,9 +3,9 @@ import { useContext } from 'react'
 import useTableList from './useTableList'
 import { table } from '@/@types'
 
-export const useSelectedItems = () => {
+export const useSelectedItems = (eventId?: number) => {
 	const { selectedItems, setSelectedItems } = useContext(SelectionContext)
-	const { tableList } = useTableList()
+	const { tableList } = useTableList(eventId)
 
 	const handleSingleCheckboxChange = (id: number) => {
 		setSelectedItems(prev => {

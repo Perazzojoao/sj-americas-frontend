@@ -30,13 +30,14 @@ import UpdateMultipleTableForm from "../TableForm/UpdateMultipleTableForm"
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  eventId: number
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, eventId }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const { filteredTableList } = useSelectedItems()
+  const { filteredTableList } = useSelectedItems(eventId)
 
   const table = useReactTable({
     data,

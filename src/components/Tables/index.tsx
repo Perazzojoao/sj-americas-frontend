@@ -12,7 +12,7 @@ const Tables = ({ eventId }: TablesProps) => {
   const { tableList } = useTableList(eventId);
   return (
     <div>
-      <DataTable columns={columns} data={tableList} />
+      <DataTable columns={columns} data={tableList} eventId={eventId} />
     </div>
   );
 }
