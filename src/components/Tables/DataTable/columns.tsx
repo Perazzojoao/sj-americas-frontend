@@ -1,7 +1,7 @@
 'use client'
 import { table } from "@/@types"
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal, ArrowUpDown } from "lucide-react"
+import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -12,27 +12,50 @@ import {
 } from "@/components/ui/dialog"
 import { Checkbox } from "@/components/ui/checkbox"
 import UpdateTableForm from "../TableForm/UpdateTableForm"
+import { useSelectedItems } from "@/hooks/useSelectedItems"
+import { CheckedState } from "@radix-ui/react-checkbox"
+
 
 export const columns: ColumnDef<table>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    header: ({ table }) => {
+      const { handleAllCheckboxChange } = useSelectedItems()
+
+      function handleCheckboxChange(value: CheckedState) {
+        table.toggleAllPageRowsSelected(!!value)
+        handleAllCheckboxChange(!!value)
+      }
+
+      return (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => handleCheckboxChange(value) }
+          aria-label="Select all"
+        />
+      )
+    },
+    cell: ({ row }) => {
+      const { handleSingleCheckboxChange } = useSelectedItems()
+
+      function handleCheckboxChange(value: CheckedState) {
+        const id = row.original.id
+
+        row.toggleSelected(!!value)
+        handleSingleCheckboxChange(id)
+      }
+
+      return (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => handleCheckboxChange(value)}
+          aria-label="Select row"
+        />
+      )
+    },
     enableSorting: false,
     enableHiding: false,
   },
