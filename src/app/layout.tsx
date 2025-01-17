@@ -5,6 +5,7 @@ import ReactQueryProvider from "@/components/Providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/providers/theme-provider";
+import SelectionContextProvider from "@/context/selection-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +41,9 @@ export default function RootLayout({
           <ReactQueryProvider>
             <Toaster />
             <Header />
-            {children}
+            <SelectionContextProvider>
+              {children}
+            </SelectionContextProvider>
           </ReactQueryProvider>
         </ThemeProvider>
       </body>
