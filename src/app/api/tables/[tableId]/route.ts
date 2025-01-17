@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ tableId: string }> }) {
 	const { tableId } = await params
-	console.log('tableId', tableId);
 	const response = await getTableList(parseInt(tableId))
 	return NextResponse.json(response)
 }
