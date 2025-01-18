@@ -1,5 +1,4 @@
 import { table } from "@/@types";
-import { getTableList } from "@/services";
 import { NEXT_API_URL } from "@/services/baseUrl";
 import { useQuery } from "@tanstack/react-query";
 

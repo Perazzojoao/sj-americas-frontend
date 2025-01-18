@@ -1,5 +1,4 @@
 'use client'
-import { table } from "@/@types";
 import { DataTable } from "./DataTable/data-table";
 import { columns } from "./DataTable/columns";
 import useTableList from "@/hooks/useTableList";
