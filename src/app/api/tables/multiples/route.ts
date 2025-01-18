@@ -11,7 +11,6 @@ table_list_ids: number[]
 export async function PATCH(request: NextRequest) {
 	const { data, table_list_ids }: BodyType = await request.json()
   const formatedBody = {...data, table_list_ids}
-  console.log('formatedBody:', formatedBody);
 	const response = await fetch(`${BASE_URL}/table/multiples`, {
 		method: 'PATCH',
 		body: JSON.stringify(formatedBody),
