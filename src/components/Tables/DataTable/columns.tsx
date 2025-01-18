@@ -39,7 +39,7 @@ export const columns: ColumnDef<table>[] = [
       )
     },
     cell: ({ row }) => {
-      const { handleSingleCheckboxChange } = useSelectedItems()
+      const { handleSingleCheckboxChange } = useSelectedItems(row.original.eventId)
 
       function handleCheckboxChange(value: CheckedState) {
         const id = row.original.id
