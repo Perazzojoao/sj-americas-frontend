@@ -59,10 +59,9 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
   const { isAllTaken, filteredTableListLength } = useMemo(() => {
     const isAllTaken = filteredTableList.every((table) => table.isTaken)
     const filteredTableListLength = filteredTableList.length
+    const idSeatsEqual = filteredTableList.every((table) => table.seats === filteredTableList[0].seats)
     return { isAllTaken, filteredTableListLength }
   }, [filteredTableList])
-
-  console.log('filteredTableList', filteredTableList);
 
   return (
     <div>
@@ -90,7 +89,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
             <DialogHeader>
               <DialogTitle className="text-primary">Editar mesas</DialogTitle>
             </DialogHeader>
-            <UpdateMultipleTableForm tableList={filteredTableList} isAllTaken={isAllTaken} />
+            <UpdateMultipleTableForm filteredTableList={filteredTableList} isAllTaken={isAllTaken} eventId={eventId} />
           </DialogContent>
         </Dialog>
       </div>
