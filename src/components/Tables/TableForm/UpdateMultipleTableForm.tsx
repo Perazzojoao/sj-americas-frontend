@@ -19,12 +19,13 @@ import {
 } from "@/components/ui/select"
 
 type UpdateMultipleTableFormProps = {
-  tableList: table[]
+  filteredTableList: table[]
   isAllTaken: boolean
+  eventId: number
 }
 
 
-const UpdateMultipleTableForm = ({ tableList, isAllTaken }: UpdateMultipleTableFormProps) => {
+const UpdateMultipleTableForm = ({ filteredTableList, isAllTaken, eventId }: UpdateMultipleTableFormProps) => {
   const {
     register,
     setValue,
@@ -34,13 +35,20 @@ const UpdateMultipleTableForm = ({ tableList, isAllTaken }: UpdateMultipleTableF
     resolver: zodResolver(tableFormSchema),
   })
 
-  const { refetch } = useTableList();
+  const { refetch } = useTableList(eventId);
 
   async function onSubmit(data: tableFormSchemaType) {
+    if (data.is_paid === undefined) {
+      data.is_paid = false;
+    }
+    const payload = {
+      data,
+      table_list_ids: filteredTableList.map((table) => table.id),
+    }
     try {
-      const response = await fetch(`/api/tables/`, {
+      const response = await fetch(`/api/tables/multiples`, {
         method: 'PATCH',
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
         headers: {
           'Content-Type': 'application/json',
         },
