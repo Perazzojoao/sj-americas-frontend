@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import UpdateMultipleTableForm from "../TableForm/UpdateMultipleTableForm"
@@ -56,13 +56,6 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     },
   })
 
-  const { isAllTaken, filteredTableListLength } = useMemo(() => {
-    const isAllTaken = filteredTableList.every((table) => table.isTaken)
-    const filteredTableListLength = filteredTableList.length
-    const idSeatsEqual = filteredTableList.every((table) => table.seats === filteredTableList[0].seats)
-    return { isAllTaken, filteredTableListLength }
-  }, [filteredTableList])
-
   return (
     <div>
       <div className="flex items-center py-4 gap-3">
@@ -80,7 +73,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
               size="sm"
               className="ml-auto"
               aria-label="Actions"
-              disabled={!filteredTableListLength}
+              disabled={filteredTableList.length === 0}
             >
               Editar marcadas
             </Button>
@@ -89,7 +82,10 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
             <DialogHeader>
               <DialogTitle className="text-primary">Editar mesas</DialogTitle>
             </DialogHeader>
-            <UpdateMultipleTableForm filteredTableList={filteredTableList} isAllTaken={isAllTaken} eventId={eventId} />
+            <UpdateMultipleTableForm
+              eventId={eventId}
+              filteredTableList={filteredTableList}
+            />
           </DialogContent>
         </Dialog>
       </div>
