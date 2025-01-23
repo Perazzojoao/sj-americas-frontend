@@ -2,6 +2,8 @@
 import { table } from "@/@types";
 import { useMemo } from "react";
 import Table from "./Table";
+import { Button } from "../ui/button";
+import { toast } from "@/hooks/use-toast";
 
 type TablesProps = {
   tableList: table[];
@@ -17,9 +19,26 @@ const TableMapping = ({ tableList }: TablesProps) => {
     return { lgTableList, smTableList, firstHalfSmTables, secondHalfSmTables };
   }, [tableList]);
 
+  function shareMap() {
+    if (typeof window === 'undefined') return;
+
+    const currentPath = window.location.pathname;
+    const id = currentPath.split('/').pop();
+    const shareUrl = `${window.location.origin}/mapa/${id}`;
+
+    navigator.clipboard.writeText(shareUrl);
+    toast({
+      title: 'Link copiado',
+      description: 'O link do mapa foi copiado para a área de transferência',
+    })
+  }
+
   return (
     <section className="py-4">
-      <h2 className="sm:text-2xl font-semibold mb-3">Mapa de mesas</h2>
+      <div className="flex justify-between items-center mb-3 py-2">
+        <h2 className="sm:text-2xl font-semibold">Mapa de mesas</h2>
+        <Button onClick={shareMap}>Compartilhar</Button>
+      </div>
       <div className="grid col-span-2 row-span-3 gap-1 sm:gap-4 justify-center items-center bg-card dark:border rounded-lg px-4 py-4 sm:py-16">
         <h3 className="text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0">{smTableList[0]?.seats} Cadeiras</h3>
         <h3 className="text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0">{lgTableList[0]?.seats} Cadeiras</h3>
