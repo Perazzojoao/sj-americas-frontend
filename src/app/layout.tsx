@@ -42,7 +42,9 @@ export default function RootLayout({
             <Toaster />
             <Header />
             <SelectionContextProvider>
-              {children}
+              <div className="px-3 sm:px-4 lg:px-5 lg:w-4/5 xl:w-4/6 mx-auto mb-8">
+                {children}
+              </div>
             </SelectionContextProvider>
           </ReactQueryProvider>
         </ThemeProvider>
