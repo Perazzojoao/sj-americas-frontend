@@ -26,6 +26,7 @@ import { useState } from "react"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import UpdateMultipleTableForm from "../TableForm/UpdateMultipleTableForm"
+import { ArrowRightToLine, ArrowLeftToLine } from "lucide-react"
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
@@ -141,6 +142,14 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
         <Button
           variant="outline"
           size="sm"
+          onClick={() => table.firstPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          <ArrowLeftToLine className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -153,6 +162,14 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
           disabled={!table.getCanNextPage()}
         >
           Next
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.lastPage()}
+          disabled={!table.getCanNextPage()}
+        >
+        <ArrowRightToLine className="h-4 w-4" />
         </Button>
       </div>
     </section>
