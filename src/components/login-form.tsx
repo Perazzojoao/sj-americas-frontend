@@ -20,7 +20,7 @@ export function LoginForm({
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-          Digite seu email e senha para acessar o painel de administração.
+            Digite seu email e senha para acessar o painel de administração.
           </CardDescription>
         </CardHeader>
         <CardContent>
