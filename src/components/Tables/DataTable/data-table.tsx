@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
   })
 
   return (
-    <div>
+    <section>
       <div className="flex items-center py-4 gap-3">
         <Input
           placeholder="Filtrar lotes"
@@ -155,6 +155,6 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
           Next
         </Button>
       </div>
-    </div>
+    </section>
   );
 }
