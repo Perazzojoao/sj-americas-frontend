@@ -32,7 +32,6 @@ const UpdateMultipleTableForm = ({
   })
 
   const { refetch } = useTableList(eventId)
-  console.log('filteredTableList:', filteredTableList);
 
   const { isAllTaken, isAllPaid, isAllOwnersEqual, isAllSeatsEqual } = useMemo(() => {
     const isAllTaken = filteredTableList.every((table) => table.isTaken)
