@@ -65,13 +65,15 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
         <h3 className="text-right">
           Cadeiras
         </h3>
-        <Input
-          id="cadeiras"
-          type="number"
-          defaultValue={seats}
-          {...register('seats')}
-          className="col-span-2"
-        />
+        <Select defaultValue={`${seats}`} onValueChange={(value) => { setValue('seats', value === '4' ? 4 : 8) }}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Cadeiras" />
+          </SelectTrigger>
+          <SelectContent className="col-span-3 col-start-2">
+            <SelectItem value="4">4</SelectItem>
+            <SelectItem value="8">8</SelectItem>
+          </SelectContent>
+        </Select>
         {errors.seats && (
           <span className="col-span-3 col-start-2 text-errorMessage text-xs">
             {errors.seats.message}
