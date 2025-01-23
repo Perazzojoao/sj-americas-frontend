@@ -1,3 +1,4 @@
+'use client'
 import { table } from '../../../@types/index';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import UpdateTableForm from '@/components/Tables/TableForm/UpdateTableForm';
