@@ -91,6 +91,7 @@ export const columns: ColumnDef<table>[] = [
         </Button>
       )
     },
+    filterFn: 'weakEquals',
     cell: ({ row }) => {
       const owner = row.getValue("owner")
       const displayedData = owner ? `${owner}` : "-"
