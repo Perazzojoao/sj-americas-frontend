@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useEffect } from "react";
 
 
 const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) => {
@@ -31,7 +32,12 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
 
   const { refetch } = useTableList(eventId);
 
+  useEffect(() => {
+    setValue('seats', seats);
+  }, [])
+
   async function onSubmit(data: tableFormSchemaType) {
+    console.log(data);
     try {
       const response = await fetch(`/api/tables/${id}`, {
         method: 'PATCH',
@@ -65,7 +71,10 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
         <h3 className="text-right">
           Cadeiras
         </h3>
-        <Select defaultValue={`${seats}`} onValueChange={(value) => { setValue('seats', value === '4' ? 4 : 8) }}>
+        <Select 
+          defaultValue={`${seats}`} 
+          onValueChange={(value) => { setValue('seats', value == '4' ? 4 : 8) }}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Cadeiras" />
           </SelectTrigger>
