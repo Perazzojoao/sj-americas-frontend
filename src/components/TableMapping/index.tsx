@@ -36,7 +36,7 @@ const TableMapping = ({ tableList }: TablesProps) => {
   return (
     <section className="py-4">
       <div className="flex justify-between items-center mb-3 py-2">
-        <h2 className="sm:text-2xl font-semibold">Mapa de mesas</h2>
+        <h2 className="sm:text-2xl font-semibold text-primary dark:text-white">Mapa de mesas</h2>
         <Button onClick={shareMap}>Compartilhar</Button>
       </div>
       <div className="grid col-span-2 row-span-3 gap-1 sm:gap-5 justify-center items-center bg-card dark:border rounded-lg px-4 py-4 sm:py-16">
