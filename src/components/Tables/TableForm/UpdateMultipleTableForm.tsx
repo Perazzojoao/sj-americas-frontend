@@ -11,7 +11,7 @@ import { tableFormSchemaType, tableFormSchema } from './tableFormSchema'
 import { toast } from '@/hooks/use-toast'
 import useTableList from '@/hooks/useTableList'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 type UpdateMultipleTableFormProps = {
   filteredTableList: table[]
@@ -40,6 +40,10 @@ const UpdateMultipleTableForm = ({
     const isAllOwnersEqual = filteredTableList.every((table) => table.owner === filteredTableList[0].owner)
     return { isAllPaid, isAllSeatsEqual, isAllOwnersEqual, isAllTaken }
   }, [filteredTableList])
+
+  useEffect(() => {
+    setValue('seats', isAllSeatsEqual ? filteredTableList[0].seats : 0)
+  },[])
 
   async function onSubmit(data: tableFormSchemaType) {
     if (data.is_paid === undefined) {
@@ -80,13 +84,18 @@ const UpdateMultipleTableForm = ({
     <form className='grid gap-4 py-4' onSubmit={handleSubmit(onSubmit)}>
       <div className='grid grid-cols-4 items-center gap-x-4 gap-y-1'>
         <h3 className='text-right'>Cadeiras</h3>
-        <Input
-          id='cadeiras'
-          type='number'
-          {...register('seats')}
-          className='col-span-2'
-          defaultValue={isAllSeatsEqual ? filteredTableList[0].seats : ''}
-        />
+        <Select
+          defaultValue={isAllSeatsEqual ? `${filteredTableList[0].seats}` : ''}
+          onValueChange={(value) => { setValue('seats', value == '4' ? 4 : 8) }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="-" />
+          </SelectTrigger>
+          <SelectContent className="col-span-3 col-start-2">
+            <SelectItem value="4">4</SelectItem>
+            <SelectItem value="8">8</SelectItem>
+          </SelectContent>
+        </Select>
         {errors.seats && (
           <span className='col-span-3 col-start-2 text-errorMessage text-xs'>{errors.seats.message}</span>
         )}
