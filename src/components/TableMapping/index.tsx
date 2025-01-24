@@ -39,7 +39,7 @@ const TableMapping = ({ tableList }: TablesProps) => {
         <h2 className="sm:text-2xl font-semibold">Mapa de mesas</h2>
         <Button onClick={shareMap}>Compartilhar</Button>
       </div>
-      <div className="grid col-span-2 row-span-3 gap-1 sm:gap-4 justify-center items-center bg-card dark:border rounded-lg px-4 py-4 sm:py-16">
+      <div className="grid col-span-2 row-span-3 gap-1 sm:gap-5 justify-center items-center bg-card dark:border rounded-lg px-4 py-4 sm:py-16">
         <h3 className="text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0">{smTableList[0]?.seats} Cadeiras</h3>
         <h3 className="text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0">{lgTableList[0]?.seats} Cadeiras</h3>
         <div className="flex flex-col justify-between items-center gap-[66px] sm:gap-[104px] col-start-1 row-start-2 col-end-1 row-end-2">
