@@ -1,8 +1,13 @@
 import { event, eventListResponse, eventResponse, response, table, tableListResponse, tableResponse } from '@/@types'
 import { BASE_URL } from './baseUrl'
+import { getBearerToken } from '../lib/getBearer'
 
 export const getEventList = async (): Promise<event[]> => {
+	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/event`, {
+		headers: {
+			Authorization: bearerToken,
+		},
 		cache: 'force-cache',
 		next: {
 			tags: ['event'],
@@ -14,7 +19,11 @@ export const getEventList = async (): Promise<event[]> => {
 }
 
 export const getEvent = async (eventId: number): Promise<event> => {
+	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/event/${eventId}`, {
+		headers: {
+			Authorization: bearerToken,
+		},
 		cache: 'force-cache',
 		next: {
 			tags: [`event-${eventId}`, 'event'],
@@ -26,7 +35,11 @@ export const getEvent = async (eventId: number): Promise<event> => {
 }
 
 export const getTableList = async (eventId: number | undefined = undefined): Promise<table[]> => {
+	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/table?eventId=${eventId}`, {
+		headers: {
+			Authorization: bearerToken,
+		},
 		cache: 'force-cache',
 		next: {
 			tags: ['table'],
@@ -38,7 +51,11 @@ export const getTableList = async (eventId: number | undefined = undefined): Pro
 }
 
 export const getTable = async (tableId: number): Promise<table> => {
+	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/table/${tableId}`, {
+		headers: {
+			Authorization: bearerToken,
+		},
 		cache: 'force-cache',
 		next: {
 			tags: [`table-${tableId}`, 'table'],

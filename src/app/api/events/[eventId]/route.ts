@@ -2,15 +2,18 @@ import { BASE_URL } from '@/services/baseUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import { eventFormSchemaType } from '@/components/Events/EventList/Event/EventForm/eventFormZod'
+import { getBearerToken } from '@/lib/getBearer'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
 	const { eventId } = await params
 	const body: eventFormSchemaType = await request.json()
+	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/event/${eventId}`, {
 		method: 'PATCH',
 		body: JSON.stringify(body),
 		headers: {
 			'Content-Type': 'application/json',
+			'authorization': bearerToken,
 		},
 	})
 

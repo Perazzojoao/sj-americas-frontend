@@ -1,5 +1,6 @@
 import { tableFormSchemaType } from "@/components/Tables/TableForm/tableFormSchema"
 import { BASE_URL } from "@/services/baseUrl"
+import { getBearerToken } from "@/lib/getBearer"
 import { revalidateTag } from "next/cache"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -9,6 +10,7 @@ table_list_ids: number[]
 }
 
 export async function PATCH(request: NextRequest) {
+	const bearerToken = await getBearerToken()
 	const { data, table_list_ids }: BodyType = await request.json()
   const formatedBody = {...data, table_list_ids}
 	const response = await fetch(`${BASE_URL}/table/multiples`, {
@@ -16,6 +18,7 @@ export async function PATCH(request: NextRequest) {
 		body: JSON.stringify(formatedBody),
 		headers: {
 			'Content-Type': 'application/json',
+			'authorization': bearerToken,
 		},
 	})
 

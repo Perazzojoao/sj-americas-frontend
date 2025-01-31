@@ -1,6 +1,7 @@
 import { tableFormSchemaType } from '@/components/Tables/TableForm/tableFormSchema'
 import { getTableList } from '@/services'
 import { BASE_URL } from '@/services/baseUrl'
+import { getBearerToken } from '@/lib/getBearer'
 import { revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -12,12 +13,14 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ tableId: string }> }) {
 	const { tableId } = await params
+	const bearerToken = await getBearerToken()
 	const body: tableFormSchemaType = await request.json()
 	const response = await fetch(`${BASE_URL}/table/${tableId}`, {
 		method: 'PATCH',
 		body: JSON.stringify(body),
 		headers: {
 			'Content-Type': 'application/json',
+			'authorization': bearerToken,
 		},
 	})
 
