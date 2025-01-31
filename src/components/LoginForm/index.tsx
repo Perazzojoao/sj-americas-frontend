@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loginFormaSchemaType, loginFormSchema } from "./loginFormSchema"
 import { Loader2 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
@@ -27,6 +28,8 @@ export function LoginForm({
   } = useForm<loginFormaSchemaType>({
     resolver: zodResolver(loginFormSchema),
   })
+
+  const route = useRouter()
 
   const onSubmit = async (data: loginFormaSchemaType) => {
     try {
@@ -44,11 +47,12 @@ export function LoginForm({
           variant: "destructive"
         })
         return;
-      } else {
-        toast({
-          title: "Login feito com sucesso",
-        })
       }
+
+      toast({
+        title: "Login feito com sucesso",
+      })
+      route.push('/')
     } catch (error) {
       console.log("error:", error);
     }
