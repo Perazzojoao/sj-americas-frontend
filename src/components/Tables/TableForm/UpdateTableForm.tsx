@@ -37,7 +37,6 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
   }, [])
 
   async function onSubmit(data: tableFormSchemaType) {
-    console.log(data);
     try {
       const response = await fetch(`/api/tables/${id}`, {
         method: 'PATCH',
