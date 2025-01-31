@@ -29,6 +29,9 @@ export async function POST(request: NextRequest) {
 
 	const nextResponse = NextResponse.json({ ...responseBody })
 	const token = responseBody.data.token
-	nextResponse.cookies.set('token', token)
+	const ONE_WEEK_IN_SECONDS = 604800
+	nextResponse.cookies.set('token', token, {
+		maxAge: ONE_WEEK_IN_SECONDS,
+	})
 	return nextResponse
 }
