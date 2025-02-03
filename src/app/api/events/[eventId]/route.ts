@@ -13,7 +13,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 		body: JSON.stringify(body),
 		headers: {
 			'Content-Type': 'application/json',
-			'authorization': bearerToken,
+			authorization: bearerToken,
 		},
 	})
 
@@ -39,8 +39,12 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
 	const { eventId } = await params
+	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/event/${eventId}`, {
 		method: 'DELETE',
+		headers: {
+			authorization: bearerToken,
+		},
 	})
 
 	if (!response.ok) {
