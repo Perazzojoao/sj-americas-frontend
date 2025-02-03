@@ -13,6 +13,7 @@ import CreateEventForm from "./Event/EventForm/createEventForm";
 import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
+import SearchInput from "@/components/SearchInput";
 
 const CreateEventDialog = () => {
   return (
@@ -45,13 +46,7 @@ const EventList = () => {
 
   return (
     <div>
-      <div className="w-full flex justify-center items-center gap-4 mb-6">
-        <Input
-          className="bg-card w-3/5 sm:w-3/6"
-          placeholder="Buscar evento"
-          onChange={(e) => handleSearchChange(e.target.value)}
-        />
-      </div>
+    <SearchInput handleSearchChange={handleSearchChange} placeHolder="Buscar evento" />
       <section className="w-full flex justify-between gap-5 items-center mb-5">
         <h1 className="text-2xl font-semibold text-primary">Lista de eventos</h1>
         <CreateEventDialog />
