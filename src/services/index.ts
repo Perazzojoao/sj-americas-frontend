@@ -68,7 +68,7 @@ export const getTable = async (tableId: number): Promise<table> => {
 
 export const getUserList = async (): Promise<user[]> => {
 	const bearerToken = await getBearerToken()
-	const response = await fetch(`${BASE_URL}/user`, {
+	const response = await fetch(`${BASE_URL}/users`, {
 		headers: {
 			Authorization: bearerToken,
 		},
@@ -79,5 +79,5 @@ export const getUserList = async (): Promise<user[]> => {
 	})
 	const resp: response = await response.json()
 	const data = resp.data as userListResponse
-	return data.users
+	return data.user_list
 }

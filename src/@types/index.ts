@@ -23,7 +23,7 @@ export type tableResponse = {
 }
 
 export type userListResponse = {
-	users: user[]
+	user_list: user[]
 }
 
 export type userResponse = {
