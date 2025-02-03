@@ -16,6 +16,7 @@ import { loginFormaSchemaType, loginFormSchema } from "./loginFormSchema"
 import { Loader2 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
+import { LoginResponse, Role } from '../../@types/index';
 
 export function LoginForm({
   className,
@@ -52,6 +53,14 @@ export function LoginForm({
       toast({
         title: "Login feito com sucesso",
       })
+      const responseBody: LoginResponse = await response.json()
+      const user = responseBody.data.user
+      const userRole = user.role
+      if (userRole === Role.ADMIN || userRole === Role.SUPER_ADMIN) {
+        route.push('/admin')
+        return;
+      }
+
       route.push('/')
     } catch (error) {
       console.log("error:", error);
