@@ -10,5 +10,5 @@ export default function useUserList() {
 
 	const userList = data ?? []
 
-	return { eventList: userList, error, isLoading, refetch }
+	return { userList, error, isLoading, refetch }
 }
