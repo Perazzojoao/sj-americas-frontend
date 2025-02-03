@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 export type response = {
 	statusCode: number
 	message: string
-	data: eventListResponse | eventResponse | tableListResponse | tableResponse
+	data: eventListResponse | eventResponse | tableListResponse | tableResponse | userListResponse | userResponse
 }
 
 export type eventListResponse = {
@@ -20,6 +20,14 @@ export type tableListResponse = {
 
 export type tableResponse = {
 	table: table
+}
+
+export type userListResponse = {
+	users: user[]
+}
+
+export type userResponse = {
+	user: user
 }
 
 export type event = {
@@ -52,8 +60,9 @@ export type user = {
 }
 
 export enum Role {
-	ADMIN,
-	USER,
+	SUPER_ADMIN = 'SUPER_ADMIN',
+	ADMIN = 'ADMIN',
+	USER = 'USER',
 }
 
 export type LoginData = {
