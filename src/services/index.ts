@@ -1,4 +1,4 @@
-import { event, eventListResponse, eventResponse, response, table, tableListResponse, tableResponse } from '@/@types'
+import { event, eventListResponse, eventResponse, response, table, tableListResponse, tableResponse, user, userListResponse } from '@/@types'
 import { BASE_URL } from './baseUrl'
 import { getBearerToken } from '../lib/getBearer'
 
@@ -64,4 +64,20 @@ export const getTable = async (tableId: number): Promise<table> => {
 	const resp: response = await response.json()
 	const data = resp.data as tableResponse
 	return data.table
+}
+
+export const getUserList = async (): Promise<user[]> => {
+	const bearerToken = await getBearerToken()
+	const response = await fetch(`${BASE_URL}/user`, {
+		headers: {
+			Authorization: bearerToken,
+		},
+		cache: 'force-cache',
+		next: {
+			tags: ['user'],
+		},
+	})
+	const resp: response = await response.json()
+	const data = resp.data as userListResponse
+	return data.users
 }
