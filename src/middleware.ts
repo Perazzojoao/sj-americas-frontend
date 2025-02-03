@@ -49,7 +49,7 @@ export function middleware(request: NextRequest) {
     // Check if user is trying to access an admin route
     const userRole = decodedToken.payload?.role
     const adminRoute = adminRoutes.path.test(path)
-    if (adminRoute && userRole !== 'ADMIN') {
+    if (adminRoute && userRole === 'USER') {
       const redirectUrl = request.nextUrl.clone()
       redirectUrl.pathname = '/'
       return NextResponse.redirect(redirectUrl)
