@@ -13,6 +13,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { CheckedState } from "@radix-ui/react-checkbox"
+import UpdateUserForm from "../UsersForm/UpdateUserForm"
 
 export const columns: ColumnDef<user>[] = [
   {
@@ -127,7 +128,7 @@ export const columns: ColumnDef<user>[] = [
             <DialogHeader>
               <DialogTitle className="text-primary">Editar usuário: {user.user_name}</DialogTitle>
             </DialogHeader>
-            {/* <UpdateTableForm {...user} /> */}
+            <UpdateUserForm {...user} />
           </DialogContent>
         </Dialog>
       )

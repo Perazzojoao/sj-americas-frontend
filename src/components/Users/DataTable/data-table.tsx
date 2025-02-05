@@ -26,6 +26,8 @@ import { useState } from "react"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ArrowRightToLine, ArrowLeftToLine } from "lucide-react"
+import { FaPlus } from "react-icons/fa6"
+import CreateUserForm from "../UsersForm/CreateUserForm"
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
@@ -64,6 +66,24 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           }
           className="max-w-sm bg-card"
         />
+        <Dialog>
+          <DialogTrigger asChild className="flex justify-between items-center">
+            <Button
+              size="sm"
+              className="ml-auto max-w-72 grow"
+              aria-label="Actions"
+            >
+              Adicionar usuário
+              <FaPlus className="ml-2" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
+            <DialogHeader>
+              <DialogTitle className="text-primary">Adicionar usuário</DialogTitle>
+            </DialogHeader>
+            <CreateUserForm />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="rounded-md border">
         <Table className="bg-card rounded-lg">
