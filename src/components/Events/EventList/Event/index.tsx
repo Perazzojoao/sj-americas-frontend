@@ -27,7 +27,7 @@ import {
 
 import EventForm from "./EventForm/updateEventForm";
 import { MoreHorizontal } from "lucide-react";
-import DeleteDialog from "@/components/Dialogs/DeleteDialog";
+import DeleteEventDialog from "@/components/Dialogs/DeleteEventDialog";
 import { useRouter } from "next/navigation";
 
 const Event = (event: event) => {
@@ -73,7 +73,7 @@ const Event = (event: event) => {
                 </AlertDialogTrigger>
               </DropdownMenuContent>
             </DropdownMenu>
-            <DeleteDialog {...event} />
+            <DeleteEventDialog {...event} />
           </AlertDialog>
           <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
             <DialogHeader>
