@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ThemeToggle } from "../ThemeToggle";
 import { getBearerToken } from "@/lib/getBearer";
 import { jwtDecodeToken } from "@/lib/jwtDecode";
+import NavBar from "./NavBar";
 
 const Header = async () => {
   const bearerToken = await getBearerToken();
@@ -14,16 +15,7 @@ const Header = async () => {
         <Link href="/">
           <h1 className="uppercase text-white font-bold text-3xl sm:text-4xl">eventos</h1>
         </Link>
-        {isValid && userRole !== "USER" && (
-          <div className="flex items-start justify-center gap-3 text-white font-semibold">
-            <Link href="/admin" className="hover:text-background hover:underline">
-              <span>Admin</span>
-            </Link>
-            <Link href="/" className="hover:text-background hover:underline">
-              <span>Home</span>
-            </Link>
-          </div>
-        )}
+        <NavBar bearerToken={bearerToken} isValid={isValid} userRole={userRole} />
       </div>
       <ThemeToggle />
     </header>
