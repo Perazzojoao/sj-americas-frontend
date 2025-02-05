@@ -1,3 +1,4 @@
+import { userFormSchemaType } from '@/components/Users/UsersForm/userFormSchema'
 import { getBearerToken } from '@/lib/getBearer'
 import { getUserList } from '@/services'
 import { BASE_URL } from '@/services/baseUrl'
@@ -11,7 +12,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
 	const bearerToken = await getBearerToken()
-	const body = await request.json()
+	const body: userFormSchemaType = await request.json()
 	const response = await fetch(`${BASE_URL}/users`, {
 		method: 'POST',
 		body: JSON.stringify(body),

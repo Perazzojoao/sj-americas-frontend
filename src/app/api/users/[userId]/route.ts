@@ -2,10 +2,11 @@ import { BASE_URL } from '@/services/baseUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import { getBearerToken } from '@/lib/getBearer'
+import { userFormSchemaType } from '@/components/Users/UsersForm/userFormSchema'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
 	const { userId } = await params
-	const body = await request.json()
+	const body: userFormSchemaType = await request.json()
 	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/users/${userId}`, {
 		method: 'PATCH',
