@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { eventFormSchema, eventFormSchemaType } from "./eventFormZod";
 import { useForm } from "react-hook-form";
-import { NEXT_API_URL } from "@/services/baseUrl";
 import useEventList from "@/hooks/useEventList";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
