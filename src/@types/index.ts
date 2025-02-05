@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 export type response = {
 	statusCode: number
 	message: string

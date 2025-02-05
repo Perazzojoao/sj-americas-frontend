@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode'
 interface JWTPayload {
 	exp: number
 	role: 'SUPER_ADMIN' | 'ADMIN' | 'USER'
-	[key: string]: any
+	[key: string]: unknown
 }
 
 export function jwtDecodeToken(token: string) {
@@ -22,6 +22,7 @@ export function jwtDecodeToken(token: string) {
 
 		return { valid: true, expired: false, payload }
 	} catch (error) {
+		console.log('Error decoding token:', error);
 		return { valid: false, expired: false, payload: null }
 	}
 }

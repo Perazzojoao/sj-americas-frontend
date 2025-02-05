@@ -10,7 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import CreateEventForm from "./Event/EventForm/createEventForm";
-import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import SearchInput from "@/components/SearchInput";

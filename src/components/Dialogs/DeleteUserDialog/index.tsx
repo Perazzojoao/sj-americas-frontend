@@ -1,5 +1,5 @@
 'use client'
-import { event, user } from "@/@types";
+import { user } from "@/@types";
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 import useUserList from "@/hooks/useUserList";
