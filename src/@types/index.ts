@@ -54,6 +54,7 @@ export type table = {
 export type user = {
 	id: number
 	user_name: string
+	password: string
 	role: Role
 	createdAt: string
 	updatedAt: string
