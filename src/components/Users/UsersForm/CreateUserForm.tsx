@@ -18,6 +18,7 @@ const CreateUserForm = () => {
     setValue,
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<userFormSchemaType>({
     resolver: zodResolver(userFormSchema),
@@ -30,6 +31,11 @@ const CreateUserForm = () => {
   const { refetch } = useUserList();
 
   async function onSubmit(data: userFormSchemaType) {
+    const password = data.password;
+    if (!password) {
+      setError('password', {message: 'A senha é obrigatória*'});
+      return;
+    }
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
