@@ -34,7 +34,7 @@ const DeleteEventDialog = ({ id }: event) => {
     }
   }
   return (
-    <AlertDialogContent className="bg-white">
+    <AlertDialogContent className="bg-card">
       <AlertDialogHeader>
         <AlertDialogTitle className="text-primary">Você tem certeza?</AlertDialogTitle>
         <AlertDialogDescription>
