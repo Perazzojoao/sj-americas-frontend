@@ -1,7 +1,7 @@
 'use client'
 import { user } from "@/@types"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -10,49 +10,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useSelectedItems } from "@/hooks/useSelectedItems"
-import { CheckedState } from "@radix-ui/react-checkbox"
 import UpdateUserForm from "../UsersForm/UpdateUserForm"
+import DeleteUserDialog from "@/components/Dialogs/DeleteUserDialog"
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 export const columns: ColumnDef<user>[] = [
-  {
-    id: "select",
-    header: ({ table }) => {
-      const { handleAllCheckboxChange } = useSelectedItems()
-
-      function handleCheckboxChange(value: CheckedState) {
-        table.toggleAllPageRowsSelected(!!value)
-        handleAllCheckboxChange(!!value)
-      }
-
-      return (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => handleCheckboxChange(value)}
-          aria-label="Select all"
-        />
-      )
-    },
-    cell: ({ row }) => {
-      function handleCheckboxChange(value: CheckedState) {
-        row.toggleSelected(!!value)
-      }
-
-      return (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => handleCheckboxChange(value)}
-          aria-label="Select row"
-        />
-      )
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "user_name",
     header: ({ column }) => {
@@ -114,23 +76,38 @@ export const columns: ColumnDef<user>[] = [
       const user = row.original
 
       return (
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              size="sm"
-              className="flex items-center"
-              aria-label="Actions"
-            >
-              Editar
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
-            <DialogHeader>
-              <DialogTitle className="text-primary">Editar usuário: {user.user_name}</DialogTitle>
-            </DialogHeader>
-            <UpdateUserForm {...user} />
-          </DialogContent>
-        </Dialog>
+        <div className="flex items-center justify-end space-x-3">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                size="sm"
+                className="flex items-center"
+                aria-label="Actions"
+              >
+                Editar
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
+              <DialogHeader>
+                <DialogTitle className="text-primary">Editar usuário: {user.user_name}</DialogTitle>
+              </DialogHeader>
+              <UpdateUserForm {...user} />
+            </DialogContent>
+          </Dialog>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                size="sm"
+                className="flex items-center"
+                aria-label="Actions"
+                variant={"destructive"}
+              >
+                <Trash2 className="cursor-pointer" />
+              </Button>
+            </AlertDialogTrigger>
+            <DeleteUserDialog {...user} />
+          </AlertDialog>
+        </div>
       )
     },
   }
