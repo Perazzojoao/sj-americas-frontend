@@ -56,6 +56,7 @@ export function LoginForm({
       const responseBody: LoginResponse = await response.json()
       const user = responseBody.data.user
       const userRole = user.role
+      route.refresh()
       if (userRole === Role.ADMIN || userRole === Role.SUPER_ADMIN) {
         route.push('/admin')
         return;
