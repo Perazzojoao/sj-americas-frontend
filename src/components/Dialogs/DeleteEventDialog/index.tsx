@@ -4,7 +4,7 @@ import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDe
 import { toast } from "@/hooks/use-toast";
 import useEventList from "@/hooks/useEventList";
 
-const DeleteDialog = ({ id }: event) => {
+const DeleteEventDialog = ({ id }: event) => {
   const { refetch } = useEventList();
 
   const handleDelete = async () => {
@@ -51,4 +51,4 @@ const DeleteDialog = ({ id }: event) => {
   );
 }
 
-export default DeleteDialog;
+export default DeleteEventDialog;
