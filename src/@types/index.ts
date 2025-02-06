@@ -54,8 +54,15 @@ export type user = {
 	user_name: string
 	password: string
 	role: Role
+	createdBy?: CreatedBy
 	createdAt: string
 	updatedAt: string
+}
+
+export type CreatedBy = {
+	id: number
+	user_id: number
+	user_name: string
 }
 
 export enum Role {
