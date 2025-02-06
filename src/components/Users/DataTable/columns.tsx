@@ -1,5 +1,5 @@
 'use client'
-import { user } from "@/@types"
+import { CreatedBy, user } from "@/@types"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -49,6 +49,24 @@ export const columns: ColumnDef<user>[] = [
     cell: ({ row }) => {
       const role: string = row.getValue("role")
       return <div className="text-left pl-4">{role}</div>
+    },
+  },
+  {
+    accessorKey: "createdBy",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Criado por
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const createdBy: CreatedBy = row.getValue("createdBy")
+      return <div className="text-left pl-4">{createdBy?.user_name ? createdBy.user_name : '-'}</div>
     },
   },
   {
