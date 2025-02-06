@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function useTableList(eventId: number | undefined = undefined) {
   const { data, error, isLoading, refetch } = useQuery<table[]>({
     queryKey: ["tableList", eventId],
-    queryFn: () => fetch(`${NEXT_API_URL}/api/tables/${eventId}`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/tables/${eventId}`).then((res) => res.json()),
   })
 
   const tableList = data ?? [];

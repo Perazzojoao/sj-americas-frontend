@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 export default function useUserList() {
 	const { data, error, isLoading, refetch } = useQuery<user[]>({
 		queryKey: ['userList'],
-		queryFn: () => fetch(`${NEXT_API_URL}/api/users`).then(res => res.json()),
+		queryFn: () => fetch(`/api/users`).then(res => res.json()),
 	})
 
 	const userList = data ?? []
