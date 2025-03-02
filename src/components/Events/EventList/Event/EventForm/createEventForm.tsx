@@ -8,11 +8,13 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react"
 import { DialogFooter } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const CreateEventForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<eventFormSchemaType>({
     resolver: zodResolver(eventFormSchema),
@@ -85,11 +87,17 @@ const CreateEventForm = () => {
         <h3 className="text-right">
           Mesas
         </h3>
-        <Input
-          id="mesas"
-          type="number"
-          {...register('table_count')}
-        />
+        <Select
+          onValueChange={(value) => { setValue('table_count', parseInt(value)) }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Mesas" />
+          </SelectTrigger>
+          <SelectContent className="col-span-3 col-start-2">
+            <SelectItem value="68">68</SelectItem>
+            <SelectItem value="78">78</SelectItem>
+          </SelectContent>
+        </Select>
         {errors.table_count && (
           <span className="col-span-3 col-start-2 text-errorMessage text-xs">
             {errors.table_count.message}
