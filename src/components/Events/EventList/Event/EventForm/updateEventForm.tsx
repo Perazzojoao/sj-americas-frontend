@@ -9,16 +9,22 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react"
 import { DialogFooter } from "@/components/ui/dialog";
 import { event } from "@/@types";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useEffect } from "react";
 
 const EventForm = ({ name, date, tableCount, id }: event) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<eventFormSchemaType>({
     resolver: zodResolver(eventFormSchema),
   })
 
+  useEffect(() => {
+    setValue('table_count', tableCount)
+  }, [])
   const { refetch } = useEventList();
 
   async function onSubmit(data: eventFormSchemaType) {
@@ -88,12 +94,18 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
         <h3 className="text-right">
           Mesas
         </h3>
-        <Input
-          id="mesas"
-          type="number"
-          defaultValue={tableCount}
-          {...register('table_count')}
-        />
+        <Select
+          defaultValue={`${tableCount}`}
+          onValueChange={(value) => { setValue('table_count', parseInt(value)) }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Cadeiras" />
+          </SelectTrigger>
+          <SelectContent className="col-span-3 col-start-2">
+            <SelectItem value="68">68</SelectItem>
+            <SelectItem value="78">78</SelectItem>
+          </SelectContent>
+        </Select>
         {errors.table_count && (
           <span className="col-span-3 col-start-2 text-errorMessage text-xs">
             {errors.table_count.message}
