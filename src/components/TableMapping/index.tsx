@@ -7,9 +7,10 @@ import { toast } from "@/hooks/use-toast";
 
 type TablesProps = {
   tableList: table[];
+  isPublic?: boolean;
 }
 
-const TableMapping = ({ tableList }: TablesProps) => {
+const TableMapping = ({ tableList, isPublic }: TablesProps) => {
   const { lgTableList, smTableList, firstHalfSmTables, secondHalfSmTables } = useMemo(() => {
     const lgTableList = tableList.filter((table) => table.seats > 4 || table.number > 68);
     const smTableList = tableList.filter((table, i) => table.seats <= 4 && i < 10);
@@ -57,7 +58,7 @@ const TableMapping = ({ tableList }: TablesProps) => {
             <h3 className="grid-flow-row col-span-full col-start-2 text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0 grow">Mesas Topo</h3>
             <div className="grid grid-flow-col col-span-full col-start-2 gap-2 sm:gap-4 w-fit justify-start items-center grow">
               {topSmTableList.map((table) => (
-                <Table key={table.id} table={table} />
+                <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
               ))}
             </div>
           </div>
@@ -69,14 +70,14 @@ const TableMapping = ({ tableList }: TablesProps) => {
             <div className="grid grid-rows-2 auto-cols-max grid-flow-col gap-2 sm:gap-4 w-fit">
               {firstHalfSmTables.map((table, index) => (
                 <div key={index} className={`${table.number === 1 ? 'row-span-2' : ''}`}>
-                  <Table key={table.id} table={table} />
+                  <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
                 </div>
               ))}
             </div>
             <div className="grid grid-rows-2 auto-cols-max grid-flow-col gap-2 sm:gap-4 w-fit">
               {secondHalfSmTables.map((table, index) => (
                 <div key={index} className={`${table.number === 6 ? 'row-span-2 row-start-2 row-end-2' : ''}`}>
-                  <Table key={table.id} table={table} />
+                  <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
                 </div>
               ))}
             </div>
@@ -84,17 +85,17 @@ const TableMapping = ({ tableList }: TablesProps) => {
           <div className="flex flex-col gap-2 sm:gap-4 items-center col-start-2 row-start-2 col-end-2 row-end-2">
             <div className="grid grid-rows-2 auto-cols-max grid-flow-col gap-2 sm:gap-4 w-fit">
               {displayLgTableList.slice(0, 20).map((table) => (
-                <Table key={table.id} table={table} />
+                <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
               ))}
             </div>
             <div className="grid grid-rows-2 auto-cols-max grid-flow-col gap-2 sm:gap-4 w-fit ml-7 sm:ml-11">
               {displayLgTableList.slice(20, 38).map((table) => (
-                <Table key={table.id} table={table} />
+                <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
               ))}
             </div>
             <div className="grid grid-rows-2 auto-cols-max grid-flow-col gap-2 sm:gap-4 w-fit">
               {displayLgTableList.slice(38).map((table) => (
-                <Table key={table.id} table={table} />
+                <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
               ))}
             </div>
           </div>

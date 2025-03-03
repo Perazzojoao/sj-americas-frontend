@@ -11,13 +11,14 @@ import { Separator } from "@/components/ui/separator"
 import UpdateTableForm from '@/components/Tables/TableForm/UpdateTableForm';
 type TableProps = {
   table: table;
+  isPublic?: boolean;
 }
-const Table = ({ table }: TableProps) => {
+const Table = ({ table, isPublic }: TableProps) => {
   return (
     <Dialog>
       <TooltipProvider>
         <Tooltip>
-          <DialogTrigger asChild>
+          <DialogTrigger asChild disabled={isPublic}>
             <TooltipTrigger
               key={table.id}
               className={

@@ -10,7 +10,7 @@ type PublicTablesProps = {
 const PublicTableMapping = ({ eventId }: PublicTablesProps) => {
   const { tableList } = useTableList(eventId);
   return (
-    <TableMapping tableList={tableList} />
+    <TableMapping tableList={tableList} isPublic={true} />
   );
 }
 
