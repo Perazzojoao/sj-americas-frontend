@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import Table from "./Table";
 import { Button } from "../ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Separator } from "../ui/separator";
 
 type TablesProps = {
   tableList: table[];
@@ -55,7 +56,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
       <div className="flex flex-col items-center justify-center gap-10 bg-card dark:border rounded-lg px-4 py-4 sm:py-16">
         {topSmTableList.length > 0 && (
           <div className="grid grid-cols-5 gap-1 sm:gap-5 max-w-[560px] pl-3 sm:pl-5 lg:pl-6">
-            <h3 className="grid-flow-row col-span-full col-start-2 text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0 grow">Mesas Topo</h3>
+            <h3 className="grid-flow-row col-span-full col-start-2 text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0 grow">Mesas Topo 4 cadeiras</h3>
             <div className="grid grid-flow-col col-span-full col-start-2 gap-2 sm:gap-4 w-fit justify-start items-center grow">
               {topSmTableList.map((table) => (
                 <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
@@ -63,6 +64,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
             </div>
           </div>
         )}
+        <Separator className="max-w-2xl"/>
         <div className="grid col-span-2 row-span-3 gap-1 sm:gap-5 justify-center items-center">
           <h3 className="text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0">{smTableList[0]?.seats} Cadeiras</h3>
           <h3 className="text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0">{lgTableList[0]?.seats} Cadeiras</h3>
