@@ -16,7 +16,7 @@ export const tableFormSchema = z.object({
 				.number()
 				.int({ message: 'Número do lote deve ser um número inteiro*' })
 				.min(1, 'Número do lote deve ser maior que 0*')
-				.max(301, 'Número do lote deve ser menor que 301*')
+				.max(340, 'Número do lote deve ser menor que 341*')
 				.nullable()
 		)
 		.nullable()
