@@ -1,17 +1,14 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getPaginationRowModel,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -20,26 +17,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 
-import { useState } from "react"
-import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useSelectedItems } from "@/hooks/useSelectedItems"
+import { ArrowLeftToLine, ArrowRightToLine, FileBarChart, FileText, SheetIcon } from "lucide-react"
+import { useState } from "react"
 import UpdateMultipleTableForm from "../TableForm/UpdateMultipleTableForm"
-import { ArrowRightToLine, ArrowLeftToLine, FileText, SheetIcon, FileBarChart } from "lucide-react"
 
 // Imports para exportação de dados
+import { saveAs } from 'file-saver'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { saveAs } from 'file-saver'
 import Papa from 'papaparse'
 
 type DataTableProps<TData, TValue> = {
@@ -145,7 +145,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     let pageCount = 1;
 
     // Itera sobre cada grupo (lote) para criar tabelas separadas
-    Object.entries(groupedByLote).forEach(([lote, rows], index) => {
+    Object.entries(groupedByLote).forEach(([lote, rows]) => {
       // Verifica se há espaço suficiente para a tabela + título na página atual
       // Se não houver, cria uma nova página
       if (yPos > 230) {
@@ -193,7 +193,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       });
 
       // Atualiza a posição Y para a próxima tabela
-      // @ts-ignore - propriedade lastAutoTable do jspdf-autotable
+      // @ts-expect-error - erro esperado, pois lastAutoTable pode não existir
       yPos = doc.lastAutoTable.finalY + 15;
     });
 
