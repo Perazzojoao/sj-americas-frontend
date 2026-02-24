@@ -37,6 +37,7 @@ import { useState } from "react"
 import UpdateMultipleTableForm from "../TableForm/UpdateMultipleTableForm"
 
 // Imports para exportação de dados
+import { table } from "@/@types"
 import { saveAs } from 'file-saver'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -53,6 +54,11 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const { filteredTableList } = useSelectedItems(eventId)
+
+  const getRowTableLabel = (row: { original: TData }) => {
+    const tableRow = row.original as table
+    return tableRow.displayLabel ?? String(tableRow.number)
+  }
 
   const table = useReactTable({
     data,
@@ -83,7 +89,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       const rowData = [];
 
       // Número da mesa
-      rowData.push(String(row.getValue("number") || ''));
+      rowData.push(getRowTableLabel(row));
 
       // Cadeiras
       rowData.push(String(row.getValue("cadeiras") || ''));
@@ -165,7 +171,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
         const rowData = [];
 
         // Número da mesa
-        rowData.push(String(row.getValue("number") || ''));
+        rowData.push(getRowTableLabel(row));
 
         // Cadeiras
         rowData.push(String(row.getValue("cadeiras") || ''));
@@ -220,7 +226,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       const rowObject: Record<string, string> = {};
 
       // Número da mesa
-      rowObject[desiredHeaders[0]] = String(row.getValue("number") || '');
+      rowObject[desiredHeaders[0]] = getRowTableLabel(row);
 
       // Cadeiras
       rowObject[desiredHeaders[1]] = String(row.getValue("cadeiras") || '');
