@@ -15,13 +15,12 @@ type TablesProps = {
 const TableMapping = ({ tableList, isPublic }: TablesProps) => {
   const {
     topFourSeats,
+    mainTopFourSeats,
     smallLeftTop,
     smallLeftBottom,
     largeRow1,
     largeRow2,
     largeRow3,
-    fourSeatCount,
-    eightSeatCount,
   } = useMemo(() => {
     const sortedByNumber = [...tableList].sort((left, right) => left.number - right.number);
     const fourSeatTables = sortedByNumber.filter((table) => table.seats <= 4);
@@ -52,6 +51,8 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
     const smallLeftTopRaw = mainFourSeatsRaw.slice(0, halfLength);
     const smallLeftBottomRaw = mainFourSeatsRaw.slice(halfLength);
     const topFourSeatsRaw = fourSeatTables.filter((table) => table.number > 68);
+    const topSectionFourSeatsRaw = topFourSeatsRaw.slice(0, 10);
+    const mainSectionTopFourSeatsRaw = topFourSeatsRaw.slice(10);
     const largeRow1Raw = eightSeatTables.slice(0, 20);
     const largeRow2Raw = eightSeatTables.slice(20, 38);
     const largeRow3Raw = eightSeatTables.slice(38);
@@ -87,30 +88,36 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
     });
 
     return {
-      topFourSeats: topFourSeatsRaw.map(withDisplayLabel),
+      topFourSeats: topSectionFourSeatsRaw.map(withDisplayLabel),
+      mainTopFourSeats: mainSectionTopFourSeatsRaw.map(withDisplayLabel),
       smallLeftTop: smallLeftTopRaw.map(withDisplayLabel),
       smallLeftBottom: smallLeftBottomRaw.map(withDisplayLabel),
       largeRow1: largeRow1Raw.map(withDisplayLabel),
       largeRow2: largeRow2Raw.map(withDisplayLabel),
       largeRow3: largeRow3Raw.map(withDisplayLabel),
-      fourSeatCount: fourSeatTables.length,
-      eightSeatCount: eightSeatTables.length,
     };
   }, [tableList]);
 
   const tableBuckets = useMemo(() => {
     return {
       topFourSeats,
+      mainTopFourSeats,
       smallLeftTop,
       smallLeftBottom,
       largeRow1,
       largeRow2,
       largeRow3,
     };
-  }, [topFourSeats, smallLeftTop, smallLeftBottom, largeRow1, largeRow2, largeRow3]);
+  }, [topFourSeats, mainTopFourSeats, smallLeftTop, smallLeftBottom, largeRow1, largeRow2, largeRow3]);
 
-  const fourSeatTitle = fourSeatCount > 0 ? `${smallLeftTop[0]?.seats ?? 4} Cadeiras` : '4 Cadeiras';
-  const eightSeatTitle = eightSeatCount > 0 ? `${largeRow1[0]?.seats ?? 8} Cadeiras` : '8 Cadeiras';
+  const topSectionRows = useMemo(() => {
+    const chunkSize = 10;
+
+    return Array.from({ length: Math.ceil(topFourSeats.length / chunkSize) }, (_, index) => {
+      const start = index * chunkSize;
+      return topFourSeats.slice(start, start + chunkSize);
+    });
+  }, [topFourSeats]);
 
 
   function shareMap() {
@@ -137,17 +144,19 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
         {tableBuckets.topFourSeats.length > 0 && (
           <div className={MAP_LAYOUT.topSection.wrapperClassName}>
             <h3 className={MAP_LAYOUT.topSection.titleClassName}>{MAP_LAYOUT.topSection.title}</h3>
-            <div className={MAP_LAYOUT.topSection.rowClassName}>
-              {tableBuckets[MAP_LAYOUT.topSection.bucket].map((table) => (
-                <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
-              ))}
-            </div>
+            {topSectionRows.map((row, rowIndex) => (
+              <div key={`top-row-${rowIndex}`} className={MAP_LAYOUT.topSection.rowClassName}>
+                {row.map((table) => (
+                  <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
+                ))}
+              </div>
+            ))}
           </div>
         )}
         <Separator className="max-w-2xl" />
         <div className={MAP_LAYOUT.mainSection.wrapperClassName}>
-          <h3 className={MAP_LAYOUT.mainSection.headers.smallClassName}>{fourSeatTitle}</h3>
-          <h3 className={MAP_LAYOUT.mainSection.headers.largeClassName}>{eightSeatTitle}</h3>
+          <h3 className={MAP_LAYOUT.mainSection.headers.smallClassName} />
+          <h3 className={MAP_LAYOUT.mainSection.headers.largeClassName} />
           <div className={MAP_LAYOUT.mainSection.smallColumnClassName}>
             {MAP_LAYOUT.mainSection.smallRows.map((row) => (
               <div key={row.id} className={row.className}>
@@ -160,6 +169,13 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
             ))}
           </div>
           <div className={MAP_LAYOUT.mainSection.largeColumnClassName}>
+            {mainTopFourSeats.length > 0 && (
+              <div className="grid grid-flow-col gap-2 sm:gap-4 w-fit justify-start items-center">
+                {mainTopFourSeats.map((table) => (
+                  <Table key={table.id} table={table} isPublic={isPublic ? true : false} />
+                ))}
+              </div>
+            )}
             {MAP_LAYOUT.mainSection.largeRows.map((row) => (
               <div key={row.id} className={row.className}>
                 {tableBuckets[row.bucket].map((table) => (
