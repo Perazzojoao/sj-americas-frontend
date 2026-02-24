@@ -79,14 +79,6 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
     sections.push({
       id: 'main-section',
       groups: [
-        // Grupo de cabeçalhos
-        {
-          id: 'headers',
-          tables: [],
-          gridConfig: {
-            className: 'grid col-span-2 row-span-1 gap-1 sm:gap-5 justify-center items-center'
-          }
-        },
         // Coluna esquerda: primeira metade das mesas pequenas (4 cadeiras)
         {
           id: 'left-small-first-half',
@@ -225,15 +217,15 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
                 
                 {/* Coluna esquerda: mesas pequenas */}
                 <div className="flex flex-col justify-between items-center gap-[66px] sm:gap-[104px] col-start-1 row-start-2 col-end-1 row-end-2">
-                  {renderTableGroup(section.groups[1])} {/* firstHalfSmTables */}
-                  {renderTableGroup(section.groups[2])} {/* secondHalfSmTables */}
+                  {renderTableGroup(section.groups[0])} {/* firstHalfSmTables */}
+                  {renderTableGroup(section.groups[1])} {/* secondHalfSmTables */}
                 </div>
                 
                 {/* Coluna central: mesas grandes */}
                 <div className="flex flex-col gap-2 sm:gap-4 items-center col-start-2 row-start-2 col-end-2 row-end-2">
-                  {renderTableGroup(section.groups[3])} {/* row1 */}
-                  {renderTableGroup(section.groups[4])} {/* row2 */}
-                  {renderTableGroup(section.groups[5])} {/* row3 */}
+                  {renderTableGroup(section.groups[2])} {/* row1 */}
+                  {renderTableGroup(section.groups[3])} {/* row2 */}
+                  {renderTableGroup(section.groups[4])} {/* row3 */}
                 </div>
               </div>
             )}
