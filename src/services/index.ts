@@ -21,6 +21,7 @@ export const getEventList = async (): Promise<event[]> => {
 		cache: 'force-cache',
 		next: {
 			tags: ['event'],
+			revalidate: 60 * 5, // 5 minutes
 		},
 	})
 	const resp: response = await response.json()
