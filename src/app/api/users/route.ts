@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET() {
 	const response = await getUserList()
-	return NextResponse.json(response)
+	return NextResponse.json(response ?? [])
 }
 
 export async function POST(request: NextRequest) {
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 			},
 			{
 				status: statusCode,
-			}
+			},
 		)
 	}
 	revalidateTag('user')
