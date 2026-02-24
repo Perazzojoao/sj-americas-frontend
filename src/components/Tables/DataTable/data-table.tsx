@@ -41,6 +41,8 @@ import { saveAs } from 'file-saver'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import Papa from 'papaparse'
+import { getTableDisplayName } from '@/utils/tableDisplay'
+import { table as TableType } from '@/@types'
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
@@ -82,8 +84,9 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     const tableData = table.getFilteredRowModel().rows.map((row) => {
       const rowData = [];
 
-      // Número da mesa
-      rowData.push(String(row.getValue("number") || ''));
+      // Número da mesa com prefixo apropriado
+      const tableObj = row.original as TableType;
+      rowData.push(getTableDisplayName(tableObj));
 
       // Cadeiras
       rowData.push(String(row.getValue("cadeiras") || ''));
@@ -164,8 +167,9 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       const tableData = rows.map((row) => {
         const rowData = [];
 
-        // Número da mesa
-        rowData.push(String(row.getValue("number") || ''));
+        // Número da mesa com prefixo apropriado
+        const tableObj = row.original as TableType;
+        rowData.push(getTableDisplayName(tableObj));
 
         // Cadeiras
         rowData.push(String(row.getValue("cadeiras") || ''));
@@ -219,8 +223,9 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     const tableData = table.getFilteredRowModel().rows.map((row) => {
       const rowObject: Record<string, string> = {};
 
-      // Número da mesa
-      rowObject[desiredHeaders[0]] = String(row.getValue("number") || '');
+      // Número da mesa com prefixo apropriado
+      const tableObj = row.original as TableType;
+      rowObject[desiredHeaders[0]] = getTableDisplayName(tableObj);
 
       // Cadeiras
       rowObject[desiredHeaders[1]] = String(row.getValue("cadeiras") || '');
