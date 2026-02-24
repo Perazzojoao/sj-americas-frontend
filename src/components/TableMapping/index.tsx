@@ -36,22 +36,35 @@ type TablesProps = {
 const TableMapping = ({ tableList, isPublic }: TablesProps) => {
   // Configuração do mapa de mesas baseado em grid
   const tableSections = useMemo((): TableSection[] => {
-    // Separar mesas por tipo
-    const smallTables = tableList.filter((table) => table.seats <= 4);
-    const largeTables = tableList.filter((table) => table.seats > 4);
+    // Reproduzir a lógica original de filtragem
+    const lgTableList = tableList.filter((table) => table.seats > 4 || table.number > 68);
+    const smTableList = tableList.filter((table, i) => table.seats <= 4 && i < 10);
+    
+    const halfLength = Math.ceil(smTableList.length / 2);
+    const firstHalfSmTables = smTableList.slice(0, halfLength);
+    const secondHalfSmTables = smTableList.slice(halfLength);
+    
+    // Remove os últimos 10 elementos do lgTableList para renderização
+    const displayLgTableList = tableList.length <= 68 
+      ? lgTableList 
+      : lgTableList.slice(0, lgTableList.length - 10);
+    
+    // Mesas do topo (após lgTableList quando tableList.length > 68)
+    const topSmTableList = tableList.length <= 68 
+      ? [] 
+      : tableList.slice(lgTableList.length);
     
     // Configurações de seções
     const sections: TableSection[] = [];
 
-    // Seção superior: mesas pequenas após a posição 68 (topSmTableList)
-    const topSmTables = tableList.slice(68); // Mesas após índice 68
-    if (topSmTables.length > 0) {
+    // Seção superior: mesas pequenas do topo
+    if (topSmTableList.length > 0) {
       sections.push({
         id: 'top-small-section',
         title: 'Mesas Topo 4 cadeiras',
         groups: [{
           id: 'top-small-group',
-          tables: topSmTables,
+          tables: topSmTableList,
           gridConfig: {
             flow: 'col',
             gap: 'gap-2 sm:gap-4',
@@ -62,18 +75,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
       });
     }
 
-    // Seção principal com 3 colunas
-    // Primeira coluna: mesas pequenas divididas em duas metades
-    const mainSmTables = smallTables.slice(0, 10); // Primeiras 10 mesas pequenas
-    const halfLength = Math.ceil(mainSmTables.length / 2);
-    const firstHalfSmTables = mainSmTables.slice(0, halfLength);
-    const secondHalfSmTables = mainSmTables.slice(halfLength);
-
-    // Segunda coluna: mesas grandes em 3 fileiras
-    const mainLgTables = tableList.length <= 68 
-      ? largeTables 
-      : largeTables.slice(0, largeTables.length - 10);
-
+    // Seção principal
     sections.push({
       id: 'main-section',
       groups: [
@@ -85,7 +87,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
             className: 'grid col-span-2 row-span-1 gap-1 sm:gap-5 justify-center items-center'
           }
         },
-        // Coluna esquerda: mesas pequenas (4 cadeiras)
+        // Coluna esquerda: primeira metade das mesas pequenas (4 cadeiras)
         {
           id: 'left-small-first-half',
           tables: firstHalfSmTables,
@@ -115,7 +117,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
         // Coluna central: mesas grandes (8 cadeiras) em 3 fileiras
         {
           id: 'center-large-row1',
-          tables: mainLgTables.slice(0, 20),
+          tables: displayLgTableList.slice(0, 20),
           gridConfig: {
             rows: 2,
             flow: 'col',
@@ -125,7 +127,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
         },
         {
           id: 'center-large-row2',
-          tables: mainLgTables.slice(20, 38),
+          tables: displayLgTableList.slice(20, 38),
           gridConfig: {
             rows: 2,
             flow: 'col',
@@ -135,7 +137,7 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
         },
         {
           id: 'center-large-row3',
-          tables: mainLgTables.slice(38),
+          tables: displayLgTableList.slice(38),
           gridConfig: {
             rows: 2,
             flow: 'col',
@@ -152,11 +154,11 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
 
   // Obter informações sobre os tipos de mesa para os cabeçalhos
   const { smTableSeats, lgTableSeats } = useMemo(() => {
-    const smTable = tableList.find((table) => table.seats <= 4);
-    const lgTable = tableList.find((table) => table.seats > 4);
+    const smTableList = tableList.filter((table, i) => table.seats <= 4 && i < 10);
+    const lgTableList = tableList.filter((table) => table.seats > 4 || table.number > 68);
     return {
-      smTableSeats: smTable?.seats || 4,
-      lgTableSeats: lgTable?.seats || 8
+      smTableSeats: smTableList[0]?.seats || 4,
+      lgTableSeats: lgTableList[0]?.seats || 8
     };
   }, [tableList]);
 
