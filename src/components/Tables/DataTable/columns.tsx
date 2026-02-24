@@ -1,8 +1,7 @@
 'use client'
 import { table } from "@/@types"
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Dialog,
   DialogContent,
@@ -10,10 +9,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Checkbox } from "@/components/ui/checkbox"
-import UpdateTableForm from "../TableForm/UpdateTableForm"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { CheckedState } from "@radix-ui/react-checkbox"
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown } from "lucide-react"
+import UpdateTableForm from "../TableForm/UpdateTableForm"
+
+const getTableLabel = (tableRow: table) => tableRow.displayLabel ?? String(tableRow.number)
+
+const parseTableLabel = (label: string) => {
+  const isFourSeat = label.startsWith('B')
+  const numericPart = Number.parseInt(isFourSeat ? label.slice(1) : label, 10)
+
+  return {
+    group: isFourSeat ? 0 : 1,
+    value: Number.isNaN(numericPart) ? Number.MAX_SAFE_INTEGER : numericPart,
+  }
+}
+
+const compareTableLabels = (left: table, right: table) => {
+  const leftParsed = parseTableLabel(getTableLabel(left))
+  const rightParsed = parseTableLabel(getTableLabel(right))
+
+  if (leftParsed.group !== rightParsed.group) {
+    return leftParsed.group - rightParsed.group
+  }
+
+  return leftParsed.value - rightParsed.value
+}
 
 
 export const columns: ColumnDef<table>[] = [
@@ -33,7 +56,7 @@ export const columns: ColumnDef<table>[] = [
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          onCheckedChange={(value) => handleCheckboxChange(value) }
+          onCheckedChange={(value) => handleCheckboxChange(value)}
           aria-label="Select all"
         />
       )
@@ -61,6 +84,7 @@ export const columns: ColumnDef<table>[] = [
   },
   {
     accessorKey: "number",
+    sortingFn: (rowA, rowB) => compareTableLabels(rowA.original, rowB.original),
     header: ({ column }) => {
       return (
         <Button
@@ -71,7 +95,10 @@ export const columns: ColumnDef<table>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
-    }
+    },
+    cell: ({ row }) => {
+      return <div>{getTableLabel(row.original)}</div>
+    },
   },
   {
     id: "cadeiras",
@@ -145,6 +172,7 @@ export const columns: ColumnDef<table>[] = [
     id: "actions",
     cell: ({ row }) => {
       const table = row.original
+      const tableLabel = getTableLabel(table)
 
       return (
         <Dialog>
@@ -159,7 +187,7 @@ export const columns: ColumnDef<table>[] = [
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
             <DialogHeader>
-              <DialogTitle className="text-primary">Editar mesa {table.number}</DialogTitle>
+              <DialogTitle className="text-primary">Editar mesa {tableLabel}</DialogTitle>
             </DialogHeader>
             <UpdateTableForm {...table} />
           </DialogContent>
