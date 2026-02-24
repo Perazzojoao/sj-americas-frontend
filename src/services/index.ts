@@ -1,6 +1,16 @@
-import { event, eventListResponse, eventResponse, response, table, tableListResponse, tableResponse, user, userListResponse } from '@/@types'
-import { BASE_URL } from './baseUrl'
+import {
+	event,
+	eventListResponse,
+	eventResponse,
+	response,
+	table,
+	tableListResponse,
+	tableResponse,
+	user,
+	userListResponse,
+} from '@/@types'
 import { getBearerToken } from '../lib/getBearer'
+import { BASE_URL } from './baseUrl'
 
 export const getEventList = async (): Promise<event[]> => {
 	const bearerToken = await getBearerToken()
@@ -79,5 +89,5 @@ export const getUserList = async (): Promise<user[]> => {
 	})
 	const resp: response = await response.json()
 	const data = resp.data as userListResponse
-	return data.user_list
+	return data?.user_list
 }

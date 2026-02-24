@@ -40,6 +40,7 @@ export type event = {
 export type table = {
 	id: number
 	number: number
+	displayLabel?: string
 	seats: number
 	owner: number | null
 	eventId: number
