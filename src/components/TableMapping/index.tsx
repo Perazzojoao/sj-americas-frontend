@@ -7,6 +7,27 @@ import { toast } from "@/hooks/use-toast";
 import { Separator } from "../ui/separator";
 import { TableGroup, TableSection } from "@/utils/tableDisplay";
 
+/**
+ * Sistema de Mapeamento de Mesas baseado em Grid
+ * 
+ * Este componente utiliza um sistema de configuração baseado em grid para facilitar
+ * o posicionamento e organização das mesas no mapa.
+ * 
+ * Estrutura:
+ * - TableSection: Representa uma seção completa do mapa (ex: seção superior, seção principal)
+ * - TableGroup: Representa um grupo de mesas dentro de uma seção com sua configuração de grid
+ * 
+ * Como adicionar novas mesas/fileiras:
+ * 1. Defina um novo TableGroup com as mesas e configuração de grid desejada
+ * 2. Adicione o grupo à seção apropriada no array sections
+ * 3. Configure o gridConfig com rows, cols, flow, gap e className conforme necessário
+ * 4. Use specialPositioning para mesas com posicionamento especial (ex: row-span-2)
+ * 
+ * Numeração:
+ * - Mesas de 4 lugares são exibidas com prefixo "B" (B1, B2, B3...)
+ * - Mesas de 8 lugares são exibidas sem prefixo (1, 2, 3...)
+ */
+
 type TablesProps = {
   tableList: table[];
   isPublic?: boolean;
