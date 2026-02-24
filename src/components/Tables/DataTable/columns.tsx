@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import UpdateTableForm from "../TableForm/UpdateTableForm"
 import { useSelectedItems } from "@/hooks/useSelectedItems"
 import { CheckedState } from "@radix-ui/react-checkbox"
+import { getTableDisplayName } from "@/utils/tableDisplay"
 
 
 export const columns: ColumnDef<table>[] = [
@@ -71,6 +72,10 @@ export const columns: ColumnDef<table>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
+    },
+    cell: ({ row }) => {
+      const table = row.original;
+      return <div className="text-left font-medium">{getTableDisplayName(table)}</div>
     }
   },
   {
@@ -145,6 +150,7 @@ export const columns: ColumnDef<table>[] = [
     id: "actions",
     cell: ({ row }) => {
       const table = row.original
+      const displayName = getTableDisplayName(table);
 
       return (
         <Dialog>
@@ -159,7 +165,7 @@ export const columns: ColumnDef<table>[] = [
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
             <DialogHeader>
-              <DialogTitle className="text-primary">Editar mesa {table.number}</DialogTitle>
+              <DialogTitle className="text-primary">Editar mesa {displayName}</DialogTitle>
             </DialogHeader>
             <UpdateTableForm {...table} />
           </DialogContent>
