@@ -1,14 +1,14 @@
 'use client'
-import { Input } from "@/components/ui/input";
-import { zodResolver } from '@hookform/resolvers/zod';
-import { eventFormSchema, eventFormSchemaType } from "./eventFormZod";
-import { useForm } from "react-hook-form";
-import useEventList from "@/hooks/useEventList";
-import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react"
 import { DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "@/hooks/use-toast";
+import useEventList from "@/hooks/useEventList";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { eventFormSchema, eventFormSchemaType } from "./eventFormZod";
 
 const CreateEventForm = () => {
   const {
@@ -96,6 +96,7 @@ const CreateEventForm = () => {
           <SelectContent className="col-span-3 col-start-2">
             <SelectItem value="68">68</SelectItem>
             <SelectItem value="78">78</SelectItem>
+            <SelectItem value="88">88</SelectItem>
           </SelectContent>
         </Select>
         {errors.table_count && (

@@ -34,10 +34,10 @@ export const MAP_LAYOUT: MapLayout = {
 	topSection: {
 		wrapperClassName: 'grid grid-cols-5 gap-1 sm:gap-5 max-w-[560px] pl-3 sm:pl-5 lg:pl-6',
 		titleClassName:
-			'grid-flow-row col-span-full col-start-2 text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0 grow',
-		rowClassName: 'grid grid-flow-col col-span-full col-start-2 gap-2 sm:gap-4 w-fit justify-start items-center grow',
+			'grid-flow-row col-span-full col-start-1 text-center border-b-2 border-primary text-xs sm:text-lg pb-2 mb-2 sm:mb-0 grow',
+		rowClassName: 'grid grid-flow-col col-span-full col-start-1 gap-2 sm:gap-4 w-fit justify-start items-center grow',
 		bucket: 'topFourSeats',
-		title: 'Mesas Topo 4 cadeiras',
+		title: 'Mesas Topo',
 	},
 	mainSection: {
 		wrapperClassName: 'grid col-span-2 row-span-3 gap-1 sm:gap-5 justify-center items-center',
