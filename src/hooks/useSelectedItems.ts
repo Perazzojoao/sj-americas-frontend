@@ -1,11 +1,12 @@
+import { table } from '@/@types'
 import { SelectionContext } from '@/context/selection-context'
 import { useContext } from 'react'
 import useTableList from './useTableList'
-import { table } from '@/@types'
 
 export const useSelectedItems = (eventId?: number) => {
 	const { selectedItems, setSelectedItems } = useContext(SelectionContext)
 	const { tableList } = useTableList(eventId)
+	const safeTableList = Array.isArray(tableList) ? tableList : []
 
 	const handleSingleCheckboxChange = (id: number) => {
 		setSelectedItems(prev => {
@@ -17,16 +18,22 @@ export const useSelectedItems = (eventId?: number) => {
 		})
 	}
 
-	const handleAllCheckboxChange = (value: boolean) => {
-		const data = tableList
+	const handleAllCheckboxChange = (value: boolean, tableIds?: number[]) => {
 		if (value) {
-			setSelectedItems(data.map(item => item.id))
+			if (tableIds && tableIds.length > 0) {
+				setSelectedItems(tableIds)
+				return
+			}
+
+			setSelectedItems(safeTableList.map(item => item.id))
 		} else {
 			setSelectedItems([])
 		}
 	}
 
-	const filteredTableList: table[] = selectedItems.map(id => tableList.find(item => item.id === id)).filter((item): item is table => item !== undefined)
+	const filteredTableList: table[] = selectedItems
+		.map(id => safeTableList.find(item => item.id === id))
+		.filter((item): item is table => item !== undefined)
 
 	return { selectedItems, filteredTableList, handleSingleCheckboxChange, handleAllCheckboxChange }
 }

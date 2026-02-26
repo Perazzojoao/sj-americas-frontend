@@ -43,11 +43,14 @@ export const columns: ColumnDef<table>[] = [
   {
     id: "select",
     header: ({ table }) => {
-      const { handleAllCheckboxChange } = useSelectedItems()
+      const currentRows = table.getRowModel().rows
+      const currentPageIds = currentRows.map((row) => row.original.id)
+      const firstRowEventId = currentRows[0]?.original.eventId
+      const { handleAllCheckboxChange } = useSelectedItems(firstRowEventId)
 
       function handleCheckboxChange(value: CheckedState) {
         table.toggleAllPageRowsSelected(!!value)
-        handleAllCheckboxChange(!!value)
+        handleAllCheckboxChange(!!value, currentPageIds)
       }
 
       return (
