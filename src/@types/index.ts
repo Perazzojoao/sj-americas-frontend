@@ -42,6 +42,7 @@ export type table = {
 	number: number
 	displayLabel?: string
 	seats: number
+	guestNames: string[]
 	owner: number | null
 	eventId: number
 	isTaken: boolean

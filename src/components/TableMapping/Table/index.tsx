@@ -1,9 +1,9 @@
 'use client'
 import TableInfo from '@/components/TableInfo';
-import UpdateTableForm from '@/components/Tables/TableForm/UpdateTableForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from "@/components/ui/separator";
 import { table } from '../../../@types/index';
+import UpdateTableForm from '../../Tables/TableForm/UpdateTableForm';
 type TableProps = {
   table: table;
   isPublic?: boolean;
@@ -30,7 +30,7 @@ const Table = ({ table, isPublic }: TableProps) => {
           <Separator />
           <TableInfo {...table} />
         </DialogContent> :
-        <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
+        <DialogContent className="sm:max-w-[760px] max-w-[360px] rounded-lg bg-card">
           <DialogHeader>
             <DialogTitle className="text-primary">Editar mesa {tableLabel}</DialogTitle>
           </DialogHeader>

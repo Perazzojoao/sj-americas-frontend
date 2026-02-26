@@ -4,7 +4,6 @@ import { toast } from "@/hooks/use-toast";
 import { buildTableLayout } from "@/lib/tableLayout";
 import { useMemo } from "react";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
 import { MAP_LAYOUT } from "./layoutConfig";
 import Table from "./Table";
 

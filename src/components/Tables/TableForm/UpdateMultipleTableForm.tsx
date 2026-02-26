@@ -4,14 +4,14 @@ import { table } from '@/@types'
 import { Button } from '@/components/ui/button'
 import { DialogFooter } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { tableFormSchemaType, tableFormSchema } from './tableFormSchema'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from '@/hooks/use-toast'
 import useTableList from '@/hooks/useTableList'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 import { useEffect, useMemo } from 'react'
+import { useForm } from 'react-hook-form'
+import { tableFormSchema, tableFormSchemaType } from './tableFormSchema'
 
 type UpdateMultipleTableFormProps = {
   filteredTableList: table[]
@@ -43,7 +43,7 @@ const UpdateMultipleTableForm = ({
 
   useEffect(() => {
     setValue('seats', isAllSeatsEqual ? filteredTableList[0].seats : 0)
-  },[])
+  }, [])
 
   async function onSubmit(data: tableFormSchemaType) {
     if (data.is_paid === undefined) {
