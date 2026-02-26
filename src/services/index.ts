@@ -12,6 +12,14 @@ import {
 import { getBearerToken } from '../lib/getBearer'
 import { BASE_URL } from './baseUrl'
 
+const safeJson = async (apiResponse: Response): Promise<response | null> => {
+	try {
+		return (await apiResponse.json()) as response
+	} catch {
+		return null
+	}
+}
+
 export const getEventList = async (): Promise<event[]> => {
 	const bearerToken = await getBearerToken()
 	const response = await fetch(`${BASE_URL}/event`, {
@@ -24,9 +32,10 @@ export const getEventList = async (): Promise<event[]> => {
 			revalidate: 60 * 5, // 5 minutes
 		},
 	})
-	const resp: response = await response.json()
-	const data = resp.data as eventListResponse
-	return data.event_list
+	if (!response.ok) return []
+	const resp = await safeJson(response)
+	const data = resp?.data as eventListResponse | undefined
+	return data?.event_list ?? []
 }
 
 export const getEvent = async (eventId: number): Promise<event> => {
@@ -40,13 +49,24 @@ export const getEvent = async (eventId: number): Promise<event> => {
 			tags: [`event-${eventId}`, 'event'],
 		},
 	})
-	const resp: response = await response.json()
-	const data = resp.data as eventResponse
+	if (!response.ok) {
+		throw new Error('Failed to fetch event')
+	}
+	const resp = await safeJson(response)
+	const data = resp?.data as eventResponse | undefined
+
+	if (!data?.event) {
+		throw new Error('Event data is undefined')
+	}
+
 	return data.event
 }
 
 export const getTableList = async (eventId: number | undefined = undefined): Promise<table[]> => {
 	const bearerToken = await getBearerToken()
+	if (!eventId || !Number.isInteger(eventId) || eventId <= 0) {
+		return []
+	}
 	const response = await fetch(`${BASE_URL}/table?eventId=${eventId}`, {
 		headers: {
 			Authorization: bearerToken,
@@ -56,9 +76,10 @@ export const getTableList = async (eventId: number | undefined = undefined): Pro
 			tags: ['table'],
 		},
 	})
-	const resp: response = await response.json()
-	const data = resp.data as tableListResponse
-	return data.tables
+	if (!response.ok) return []
+	const resp = await safeJson(response)
+	const data = resp?.data as tableListResponse | undefined
+	return data?.tables ?? []
 }
 
 export const getTable = async (tableId: number): Promise<table> => {
@@ -72,8 +93,16 @@ export const getTable = async (tableId: number): Promise<table> => {
 			tags: [`table-${tableId}`, 'table'],
 		},
 	})
-	const resp: response = await response.json()
-	const data = resp.data as tableResponse
+	if (!response.ok) {
+		throw new Error('Failed to fetch table')
+	}
+	const resp = await safeJson(response)
+	const data = resp?.data as tableResponse | undefined
+
+	if (!data?.table) {
+		throw new Error('Table data is undefined')
+	}
+
 	return data.table
 }
 
@@ -88,7 +117,8 @@ export const getUserList = async (): Promise<user[]> => {
 			tags: ['user'],
 		},
 	})
-	const resp: response = await response.json()
-	const data = resp.data as userListResponse
+	if (!response.ok) return []
+	const resp = await safeJson(response)
+	const data = resp?.data as userListResponse | undefined
 	return data?.user_list
 }
