@@ -1,16 +1,16 @@
 'use client'
-import { Input } from "@/components/ui/input";
-import { zodResolver } from '@hookform/resolvers/zod';
-import { eventFormSchema, eventFormSchemaType } from "./eventFormZod";
-import { useForm } from "react-hook-form";
-import useEventList from "@/hooks/useEventList";
-import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react"
-import { DialogFooter } from "@/components/ui/dialog";
 import { event } from "@/@types";
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "@/hooks/use-toast";
+import useEventList from "@/hooks/useEventList";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { eventFormSchema, eventFormSchemaType } from "./eventFormZod";
 
 const EventForm = ({ name, date, tableCount, id }: event) => {
   const {
@@ -25,7 +25,7 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
   useEffect(() => {
     setValue('table_count', tableCount)
   }, [])
-  const { refetch } = useEventList();
+  const { invalidateEventListCache } = useEventList();
 
   async function onSubmit(data: eventFormSchemaType) {
     try {
@@ -49,7 +49,7 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
         })
       }
 
-      refetch();
+      await invalidateEventListCache();
     } catch (error) {
       console.log("error:", error);
     }
@@ -104,6 +104,7 @@ const EventForm = ({ name, date, tableCount, id }: event) => {
           <SelectContent className="col-span-3 col-start-2">
             <SelectItem value="68">68</SelectItem>
             <SelectItem value="78">78</SelectItem>
+            <SelectItem value="88">88</SelectItem>
           </SelectContent>
         </Select>
         {errors.table_count && (

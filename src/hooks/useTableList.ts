@@ -1,13 +1,24 @@
-import { table } from "@/@types";
-import { useQuery } from "@tanstack/react-query";
+import { table } from '@/@types'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function useTableList(eventId: number | undefined = undefined) {
-  const { data, error, isLoading, refetch } = useQuery<table[]>({
-    queryKey: ["tableList", eventId],
-    queryFn: () => fetch(`/api/tables/${eventId}`).then((res) => res.json()),
-  })
+	const queryClient = useQueryClient()
 
-  const tableList = data ?? [];
+	const { data, error, isLoading, refetch } = useQuery<table[]>({
+		queryKey: ['tableList', eventId],
+		queryFn: () => fetch(`/api/tables/${eventId}`).then(res => res.json()),
+	})
 
-  return { tableList, error, isLoading, refetch };
+	async function invalidateTableListCache() {
+		if (eventId) {
+			await queryClient.invalidateQueries({ queryKey: ['tableList', eventId] })
+			return
+		}
+
+		await queryClient.invalidateQueries({ queryKey: ['tableList'] })
+	}
+
+	const tableList = data ?? []
+
+	return { tableList, error, isLoading, refetch, invalidateTableListCache }
 }

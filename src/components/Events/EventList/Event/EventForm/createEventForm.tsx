@@ -20,7 +20,7 @@ const CreateEventForm = () => {
     resolver: zodResolver(eventFormSchema),
   })
 
-  const { refetch } = useEventList();
+  const { invalidateEventListCache } = useEventList();
 
   async function onSubmit(data: eventFormSchemaType) {
     try {
@@ -44,7 +44,7 @@ const CreateEventForm = () => {
         })
       }
 
-      refetch();
+      await invalidateEventListCache();
     } catch (error) {
       console.log("error:", error);
     }

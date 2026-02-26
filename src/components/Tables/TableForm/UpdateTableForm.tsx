@@ -4,20 +4,20 @@ import { table } from "@/@types";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { tableFormSchemaType, tableFormSchema } from "./tableFormSchema";
-import { toast } from "@/hooks/use-toast";
-import useTableList from "@/hooks/useTableList";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+import { toast } from "@/hooks/use-toast";
+import useTableList from "@/hooks/useTableList";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { tableFormSchema, tableFormSchemaType } from "./tableFormSchema";
 
 
 const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) => {
@@ -30,7 +30,7 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
     resolver: zodResolver(tableFormSchema),
   })
 
-  const { refetch } = useTableList(eventId);
+  const { invalidateTableListCache } = useTableList(eventId);
 
   useEffect(() => {
     setValue('seats', seats);
@@ -58,7 +58,7 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
         })
       }
 
-      refetch();
+      await invalidateTableListCache();
     } catch (error) {
       console.log("error:", error);
     }
@@ -70,8 +70,8 @@ const UpdateTableForm = ({ id, seats, owner, isTaken, isPaid, eventId }: table) 
         <h3 className="text-right">
           Cadeiras
         </h3>
-        <Select 
-          defaultValue={`${seats}`} 
+        <Select
+          defaultValue={`${seats}`}
           onValueChange={(value) => { setValue('seats', value == '4' ? 4 : 8) }}
         >
           <SelectTrigger className="w-[180px]">
