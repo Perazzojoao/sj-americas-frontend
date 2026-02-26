@@ -120,5 +120,5 @@ export const getUserList = async (): Promise<user[]> => {
 	if (!response.ok) return []
 	const resp = await safeJson(response)
 	const data = resp?.data as userListResponse | undefined
-	return data?.user_list
+	return data?.user_list ?? []
 }

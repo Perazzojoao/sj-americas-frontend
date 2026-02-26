@@ -1,9 +1,9 @@
-import { tableFormSchemaType } from '@/components/Tables/TableForm/tableFormSchema'
 import { getBearerToken } from '@/lib/getBearer'
 import { getTableList } from '@/services'
 import { BASE_URL } from '@/services/baseUrl'
 import { revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
+import { singleTableFormSchemaType } from '../../../../components/Tables/TableForm/tableFormSchema'
 
 const parsePositiveId = (value: string | undefined): number | null => {
 	if (!value || value === 'undefined' || value === 'null') return null
@@ -57,7 +57,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 			return badRequest('tableId is required and must be a valid positive number')
 		}
 
-		let body: tableFormSchemaType
+		let body: singleTableFormSchemaType
 		try {
 			body = await request.json()
 		} catch {
