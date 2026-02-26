@@ -266,6 +266,58 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     saveAs(blob, `tabela_evento_${eventId}_${new Date().toISOString().split('T')[0]}.csv`);
   };
 
+  // Função para exportar relação de convidados por lote
+  const exportGuestListPDF = () => {
+    const doc = new jsPDF();
+
+    const guestRows = table
+      .getFilteredRowModel()
+      .rows
+      .flatMap((row) => {
+        const ownerValue = row.getValue("owner");
+        const owner = ownerValue ? Number(ownerValue) : null;
+        const guests = (row.original as table).guestNames ?? [];
+
+        return guests.map((guestName) => ({
+          owner,
+          ownerLabel: owner ? String(owner) : "Sem lote",
+          guestName,
+        }));
+      })
+      .sort((left, right) => {
+        if (left.owner === null && right.owner === null) {
+          return left.guestName.localeCompare(right.guestName, "pt-BR");
+        }
+
+        if (left.owner === null) return 1;
+        if (right.owner === null) return -1;
+
+        if (left.owner !== right.owner) {
+          return left.owner - right.owner;
+        }
+
+        return left.guestName.localeCompare(right.guestName, "pt-BR");
+      });
+
+    if (guestRows.length === 0) {
+      doc.setFontSize(12);
+      doc.text("Nenhum convidado encontrado para os filtros atuais.", 14, 20);
+      window.open(URL.createObjectURL(doc.output('blob')), '_blank');
+      return;
+    }
+
+    autoTable(doc, {
+      head: [["Lote", "Convidado"]],
+      body: guestRows.map((row) => [row.ownerLabel, row.guestName]),
+      theme: 'grid',
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+      alternateRowStyles: { fillColor: [245, 245, 245] },
+    });
+
+    window.open(URL.createObjectURL(doc.output('blob')), '_blank');
+  };
+
   return (
     <section>
       <div className="flex items-center py-4 gap-3">
@@ -302,6 +354,9 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
           <DropdownMenuTrigger className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">Exportar tabela</DropdownMenuTrigger>          <DropdownMenuContent>
             <DropdownMenuItem className="cursor-pointer" onClick={exportReportPDF}>
               <FileBarChart /> Relatório
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" onClick={exportGuestListPDF}>
+              <FileText /> Relação de convidados
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer" onClick={exportToPDF}>
