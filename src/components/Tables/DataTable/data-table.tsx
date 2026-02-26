@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     const doc = new jsPDF();
 
     // Define os cabeçalhos que queremos mostrar (na ordem desejada)
-    const desiredHeaders = ["Número da mesa", "Cadeiras", "Lote", "Status", "Pagamento"];
+    const desiredHeaders = ["Número da mesa", "Cadeiras", "Lote", "Status", "Pagamento", "Ocupantes"];
     // Prepara os dados para a tabela (todas as linhas, ignorando paginação)
     const tableData = table.getFilteredRowModel().rows.map((row) => {
       const rowData = [];
@@ -106,6 +106,10 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       const isPaid = row.getValue("isPaid");
       rowData.push(isTaken ? (isPaid ? "Pago" : "Pendente") : "-");
 
+      // Ocupantes
+      const guests = (row.original as table).guestNames ?? [];
+      rowData.push(guests.length > 0 ? guests.join(', ') : '-');
+
       return rowData;
     });
 
@@ -127,7 +131,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     const doc = new jsPDF();
 
     // Define os cabeçalhos que queremos mostrar (na ordem desejada)
-    const desiredHeaders = ["Número da mesa", "Cadeiras", "Status", "Pagamento"];
+    const desiredHeaders = ["Número da mesa", "Cadeiras", "Status", "Pagamento", "Ocupantes"];
 
     // Obtém todos os dados filtrados das tabelas
     const allRows = table.getFilteredRowModel().rows;
@@ -184,6 +188,10 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
         const isPaid = row.getValue("isPaid");
         rowData.push(isTaken ? (isPaid ? "Pago" : "Pendente") : "-");
 
+        // Ocupantes
+        const guests = (row.original as table).guestNames ?? [];
+        rowData.push(guests.length > 0 ? guests.join(', ') : '-');
+
         return rowData;
       });
 
@@ -220,7 +228,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
   // Função para exportar para CSV
   const exportToCSV = () => {
     // Define os cabeçalhos que queremos mostrar (na ordem desejada)
-    const desiredHeaders = ["Número da mesa", "Cadeiras", "Lote", "Status", "Pagamento"];
+    const desiredHeaders = ["Número da mesa", "Cadeiras", "Lote", "Status", "Pagamento", "Ocupantes"];
     // Prepara os dados para a tabela no mesmo formato que o PDF (todas as linhas, ignorando paginação)
     const tableData = table.getFilteredRowModel().rows.map((row) => {
       const rowObject: Record<string, string> = {};
@@ -242,6 +250,10 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       // Pagamento
       const isPaid = row.getValue("isPaid");
       rowObject[desiredHeaders[4]] = isTaken ? (isPaid ? "Pago" : "Pendente") : "-";
+
+      // Ocupantes
+      const guests = (row.original as table).guestNames ?? [];
+      rowObject[desiredHeaders[5]] = guests.length > 0 ? guests.join(', ') : '-';
 
       return rowObject;
     });
