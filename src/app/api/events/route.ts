@@ -79,6 +79,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		revalidateTag('event')
+		revalidateTag('table')
 		return NextResponse.json(responseBody ?? { success: true }, { status: response.status })
 	} catch {
 		return gatewayError()
