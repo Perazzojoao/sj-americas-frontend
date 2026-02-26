@@ -188,7 +188,7 @@ export const columns: ColumnDef<table>[] = [
               Editar
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] max-w-[360px] rounded-lg bg-card">
+          <DialogContent className="sm:max-w-[760px] max-w-[360px] rounded-lg bg-card">
             <DialogHeader>
               <DialogTitle className="text-primary">Editar mesa {tableLabel}</DialogTitle>
             </DialogHeader>
