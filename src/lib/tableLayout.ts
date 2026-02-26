@@ -53,7 +53,8 @@ export const buildTableLayout = (tableList: table[]): TableLayoutResult => {
 	const orderedFourSeatsForLabel = [
 		...orderedSmallLeftTopForLabel,
 		...orderedSmallLeftBottomForLabel,
-		...topFourSeatsRaw,
+		...mainSectionTopFourSeatsRaw,
+		...topSectionFourSeatsRaw,
 	]
 
 	const orderedEightSeatsForLabel = [

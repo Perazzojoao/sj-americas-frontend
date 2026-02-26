@@ -71,7 +71,6 @@ const TableMapping = ({ tableList, isPublic }: TablesProps) => {
             ))}
           </div>
         )}
-        <Separator className="max-w-2xl" />
         <div className={MAP_LAYOUT.mainSection.wrapperClassName}>
           <h3 className={MAP_LAYOUT.mainSection.headers.smallClassName} />
           <h3 className={MAP_LAYOUT.mainSection.headers.largeClassName} />
