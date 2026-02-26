@@ -3,6 +3,7 @@
 import { table } from '@/@types'
 import { Button } from '@/components/ui/button'
 import { DialogFooter } from '@/components/ui/dialog'
+import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -11,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 import { toast } from '@/hooks/use-toast'
 import useTableList from '@/hooks/useTableList'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -113,60 +115,62 @@ const UpdateTableForm = ({ id, seats, guestNames, owner, isTaken, isPaid, eventI
 
   return (
     <form className='py-4' onSubmit={handleSubmit(onSubmit)}>
-      <div className='grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]'>
-        <div className='grid gap-4'>
-          <div className='grid grid-cols-4 items-center gap-x-4 gap-y-1'>
-            <h3 className='text-right'>Cadeiras</h3>
-            <Select
-              defaultValue={`${seats}`}
-              onValueChange={value => {
-                setValue('seats', value == '4' ? 4 : 8, { shouldValidate: true })
-              }}
-            >
-              <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='Cadeiras' />
-              </SelectTrigger>
-              <SelectContent className='col-span-3 col-start-2'>
-                <SelectItem value='4'>4</SelectItem>
-                <SelectItem value='8'>8</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.seats && (
-              <span className='col-span-3 col-start-2 text-errorMessage text-xs'>
-                {errors.seats.message}
-              </span>
-            )}
-          </div>
+      <div className='grid items-start gap-4 lg:justify-center lg:grid-cols-[max-content_1px_minmax(0,320px)] lg:gap-5'>
+        <div className='lg:w-fit'>
+          <FieldGroup className='gap-3 lg:w-fit'>
+            <Field orientation='responsive' className='lg:grid-cols-[108px_220px] lg:gap-2'>
+              <FieldContent>
+                <FieldLabel htmlFor='seats'>Cadeiras</FieldLabel>
+              </FieldContent>
+              <Select
+                defaultValue={`${seats}`}
+                onValueChange={value => {
+                  setValue('seats', value == '4' ? 4 : 8, { shouldValidate: true })
+                }}
+              >
+                <SelectTrigger id='seats' className='w-full max-w-[220px]'>
+                  <SelectValue placeholder='Cadeiras' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='4'>4</SelectItem>
+                  <SelectItem value='8'>8</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.seats && (
+                <FieldError>{errors.seats.message}</FieldError>
+              )}
+            </Field>
 
-          <div className='grid grid-cols-4 items-center gap-x-4 gap-y-1'>
-            <h3 className='text-right'>Lote</h3>
-            <Input
-              id='lote'
-              type='text'
-              defaultValue={owner ?? ''}
-              {...register('owner')}
-              className='col-span-2'
-            />
-            {errors.owner && (
-              <span className='col-span-3 col-start-2 text-errorMessage text-xs'>
-                {errors.owner.message}
-              </span>
-            )}
-          </div>
+            <Field orientation='responsive' className='lg:grid-cols-[108px_220px] lg:gap-2'>
+              <FieldContent>
+                <FieldLabel htmlFor='lote'>Lote</FieldLabel>
+              </FieldContent>
+              <Input
+                id='lote'
+                type='text'
+                defaultValue={owner ?? ''}
+                {...register('owner')}
+                className='w-full max-w-[220px]'
+              />
+              {errors.owner && (
+                <FieldError>{errors.owner.message}</FieldError>
+              )}
+            </Field>
 
-          <div className='grid grid-cols-4 items-center gap-x-4 gap-y-1'>
-            <h3 className='text-right sm:block hidden'>Pagamento</h3>
-            <div className='col-start-2'>
+            <Field orientation='responsive' className='lg:grid-cols-[108px_220px] lg:gap-2'>
+              <FieldContent>
+                <FieldLabel htmlFor='payment'>Pagamento</FieldLabel>
+              </FieldContent>
               <Select
                 defaultValue={`${isPaid}`}
                 onValueChange={value => {
                   setValue('is_paid', value === 'true')
                 }}
               >
-                <SelectTrigger className='w-[180px]' disabled={!isTaken}>
+                <SelectTrigger id='payment' className='w-full max-w-[220px]' disabled={!isTaken}>
                   <SelectValue placeholder='Pagamento' />
                 </SelectTrigger>
-                <SelectContent className='col-span-3 col-start-2'>
+                <SelectContent>
                   {!isTaken ? (
                     <SelectItem value='false'>-</SelectItem>
                   ) : (
@@ -177,26 +181,28 @@ const UpdateTableForm = ({ id, seats, guestNames, owner, isTaken, isPaid, eventI
                   )}
                 </SelectContent>
               </Select>
-            </div>
-            {errors.is_paid && (
-              <span className='col-span-3 col-start-2 text-errorMessage text-xs'>
-                {errors.is_paid.message}
-              </span>
-            )}
-          </div>
+              {errors.is_paid && (
+                <FieldError>{errors.is_paid.message}</FieldError>
+              )}
+            </Field>
+          </FieldGroup>
         </div>
 
-        <div className='border rounded-md p-3 h-fit'>
+        <Separator className='lg:hidden' />
+        <Separator orientation='vertical' className='hidden lg:block self-stretch' />
+
+        <div className='h-fit lg:pt-0.5'>
           <h3 className='text-sm font-semibold mb-2'>Nomes na mesa</h3>
-          <div className='flex gap-2'>
+          <div className='flex flex-col sm:flex-row gap-2'>
             <Input
               type='text'
               value={guestNameInput}
               onChange={event => setGuestNameInput(event.target.value)}
               onKeyDown={handleGuestInputEnter}
               placeholder='Digite um nome'
+              className='w-full sm:max-w-[260px]'
             />
-            <Button type='button' onClick={handleAddGuestName}>
+            <Button type='button' onClick={handleAddGuestName} className='sm:w-auto'>
               Adicionar
             </Button>
           </div>
@@ -211,7 +217,7 @@ const UpdateTableForm = ({ id, seats, guestNames, owner, isTaken, isPaid, eventI
             </span>
           )}
 
-          <div className='mt-3 max-h-48 overflow-auto'>
+          <div className='mt-2.5 max-h-48 overflow-auto'>
             {watchedGuestNames.length === 0 ? (
               <span className='text-xs text-muted-foreground'>Nenhum nome adicionado</span>
             ) : (
