@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     const doc = new jsPDF();
 
     // Define os cabeçalhos que queremos mostrar (na ordem desejada)
-    const desiredHeaders = ["Número da mesa", "Cadeiras", "Lote", "Status", "Pagamento", "Ocupantes"];
+    const desiredHeaders = ["Nº mesa", "Cadeiras", "Lote", "Status", "Pagamento", "Ocupantes"];
     // Prepara os dados para a tabela (todas as linhas, ignorando paginação)
     const tableData = table.getFilteredRowModel().rows.map((row) => {
       const rowData = [];
@@ -119,6 +119,14 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
       body: tableData,
       theme: 'grid',
       styles: { fontSize: 8, cellPadding: 2 },
+      columnStyles: {
+        0: { cellWidth: 16 },
+        1: { cellWidth: 16 },
+        2: { cellWidth: 16 },
+        3: { cellWidth: 20 },
+        4: { cellWidth: 20 },
+        5: { cellWidth: 'auto' },
+      },
       headStyles: { fillColor: [41, 128, 185], textColor: 255 },
       alternateRowStyles: { fillColor: [245, 245, 245] },
     });
@@ -131,7 +139,7 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     const doc = new jsPDF();
 
     // Define os cabeçalhos que queremos mostrar (na ordem desejada)
-    const desiredHeaders = ["Número da mesa", "Cadeiras", "Status", "Pagamento", "Ocupantes"];
+    const desiredHeaders = ["Nº mesa", "Cadeiras", "Status", "Pagamento", "Ocupantes"];
 
     // Obtém todos os dados filtrados das tabelas
     const allRows = table.getFilteredRowModel().rows;
@@ -202,6 +210,13 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
         body: tableData,
         theme: 'grid',
         styles: { fontSize: 8, cellPadding: 2 },
+        columnStyles: {
+          0: { cellWidth: 16 },
+          1: { cellWidth: 16 },
+          2: { cellWidth: 20 },
+          3: { cellWidth: 20 },
+          4: { cellWidth: 'auto' },
+        },
         headStyles: { fillColor: [41, 128, 185], textColor: 255 },
         alternateRowStyles: { fillColor: [245, 245, 245] },
       });
@@ -270,22 +285,54 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
   const exportGuestListPDF = () => {
     const doc = new jsPDF();
 
+    const compareTableLabels = (leftLabel: string, rightLabel: string) => {
+      const leftNormalized = leftLabel.trim();
+      const rightNormalized = rightLabel.trim();
+
+      const leftStartsWithB = leftNormalized.toUpperCase().startsWith("B");
+      const rightStartsWithB = rightNormalized.toUpperCase().startsWith("B");
+
+      if (leftStartsWithB !== rightStartsWithB) {
+        return leftStartsWithB ? -1 : 1;
+      }
+
+      const leftNumeric = Number(leftNormalized.replace(/\D/g, ""));
+      const rightNumeric = Number(rightNormalized.replace(/\D/g, ""));
+
+      if (!Number.isNaN(leftNumeric) && !Number.isNaN(rightNumeric) && leftNumeric !== rightNumeric) {
+        return leftNumeric - rightNumeric;
+      }
+
+      return leftNormalized.localeCompare(rightNormalized, "pt-BR", {
+        numeric: true,
+        sensitivity: "base",
+      });
+    };
+
     const guestRows = table
       .getFilteredRowModel()
       .rows
       .flatMap((row) => {
         const ownerValue = row.getValue("owner");
         const owner = ownerValue ? Number(ownerValue) : null;
+        const tableLabel = getRowTableLabel(row);
         const guests = (row.original as table).guestNames ?? [];
 
         return guests.map((guestName) => ({
           owner,
           ownerLabel: owner ? String(owner) : "Sem lote",
+          tableLabel,
           guestName,
         }));
       })
       .sort((left, right) => {
         if (left.owner === null && right.owner === null) {
+          const tableComparison = compareTableLabels(left.tableLabel, right.tableLabel);
+
+          if (tableComparison !== 0) {
+            return tableComparison;
+          }
+
           return left.guestName.localeCompare(right.guestName, "pt-BR");
         }
 
@@ -294,6 +341,12 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
 
         if (left.owner !== right.owner) {
           return left.owner - right.owner;
+        }
+
+        const tableComparison = compareTableLabels(left.tableLabel, right.tableLabel);
+
+        if (tableComparison !== 0) {
+          return tableComparison;
         }
 
         return left.guestName.localeCompare(right.guestName, "pt-BR");
@@ -307,10 +360,15 @@ export function DataTable<TData, TValue>({ columns, data, eventId }: DataTablePr
     }
 
     autoTable(doc, {
-      head: [["Lote", "Convidado"]],
-      body: guestRows.map((row) => [row.ownerLabel, row.guestName]),
+      head: [["Lote", "Mesa", "Convidado"]],
+      body: guestRows.map((row) => [row.ownerLabel, row.tableLabel, row.guestName]),
       theme: 'grid',
       styles: { fontSize: 8, cellPadding: 2 },
+      columnStyles: {
+        0: { cellWidth: 16 },
+        1: { cellWidth: 16 },
+        2: { cellWidth: 'auto' },
+      },
       headStyles: { fillColor: [41, 128, 185], textColor: 255 },
       alternateRowStyles: { fillColor: [245, 245, 245] },
     });
